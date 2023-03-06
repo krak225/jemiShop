@@ -1,7 +1,10 @@
-part of dashboard;
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/cupertino.dart';
 
-class _MainMenu extends StatelessWidget {
-  const _MainMenu({
+import '../../../../shared_components/selection_button.dart';
+
+class MainMenu extends StatelessWidget {
+  const MainMenu({
     required this.onSelected,
     Key? key,
   }) : super(key: key);

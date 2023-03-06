@@ -1,44 +1,16 @@
-library dashboard;
-
-import 'package:daily_task/app/constans/app_constants.dart';
-import 'package:daily_task/app/features/dashboard/controllers/home_controller.dart';
-import 'package:daily_task/app/features/dashboard/views/screens/liste_pages.dart';
-import 'package:daily_task/app/shared_components/card_task.dart';
-import 'package:daily_task/app/shared_components/header_text.dart';
-import 'package:daily_task/app/shared_components/list_task_assigned.dart';
-import 'package:daily_task/app/shared_components/list_task_date.dart';
-import 'package:daily_task/app/shared_components/responsive_builder.dart';
-import 'package:daily_task/app/shared_components/search_field.dart';
-import 'package:daily_task/app/shared_components/selection_button.dart';
-import 'package:daily_task/app/shared_components/simple_selection_button.dart';
-import 'package:daily_task/app/shared_components/simple_user_profile.dart';
-import 'package:daily_task/app/shared_components/task_progress.dart';
-import 'package:daily_task/app/shared_components/user_profile.dart';
-import 'package:dotted_border/dotted_border.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:daily_task/app/utils/helpers/app_helpers.dart';
-import 'package:intl/intl.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:dotted_border/dotted_border.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/src/simple/get_view.dart';
 
-// binding
-part '../../bindings/dashboard_binding.dart';
-
-// controller
-part '../../controllers/dashboard_controller.dart';
-
-// model
-
-// component
-part '../components/bottom_navbar.dart';
-part '../components/header_weekly_task.dart';
-part '../components/main_menu.dart';
-part '../components/task_menu.dart';
-part '../components/member.dart';
-part '../components/task_in_progress.dart';
-part '../components/task_group.dart';
+import '../../../../constans/app_constants.dart';
+import '../../../../shared_components/header_text.dart';
+import '../../../../shared_components/task_progress.dart';
+import '../../controllers/home_controller.dart';
+import '../components/header_weekly_task.dart';
+import '../components/task_in_progress.dart';
+import '../components/weekly_task.dart';
 
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({Key? key}) : super(key: key);
@@ -58,7 +30,7 @@ class HomeScreen extends GetView<HomeController> {
       padding: const EdgeInsets.symmetric(horizontal: kSpacing),
       child: Column(
         children: [
-          const SizedBox(height: kSpacing),
+          /*const SizedBox(height: kSpacing),
           Row(
             children: [
               if (onPressedMenu != null)
@@ -90,7 +62,7 @@ class HomeScreen extends GetView<HomeController> {
                 ),
               ),
             ],
-          ),
+          ),*/
           const SizedBox(height: kSpacing),
           Row(
             children: [
@@ -107,16 +79,16 @@ class HomeScreen extends GetView<HomeController> {
             ],
           ),
           const SizedBox(height: kSpacing),
-          //_TaskInProgress(data: controller.taskInProgress),
-          //const SizedBox(height: kSpacing * 2),
-          //const _HeaderWeeklyTask(),
-          //const SizedBox(height: kSpacing),
-          /*_WeeklyTask(
+          TaskInProgress(data: controller.taskInProgress),
+          const SizedBox(height: kSpacing * 2),
+          const HeaderWeeklyTask(),
+          const SizedBox(height: kSpacing),
+          WeeklyTask(
             data: controller.weeklyTask,
             onPressed: controller.onPressedTask,
             onPressedAssign: controller.onPressedAssignTask,
             onPressedMember: controller.onPressedMemberTask,
-          )*/
+          )
         ],
       ),
     );

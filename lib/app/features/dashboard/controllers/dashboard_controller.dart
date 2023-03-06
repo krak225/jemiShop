@@ -1,4 +1,19 @@
-part of dashboard;
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+
+import '../../../constans/app_constants.dart';
+import '../../../shared_components/card_task.dart';
+import '../../../shared_components/list_task_assigned.dart';
+import '../../../shared_components/list_task_date.dart';
+import '../../../shared_components/selection_button.dart';
+import '../../../shared_components/task_progress.dart';
+import '../../../shared_components/user_profile.dart';
+import '../views/screens/home_screen.dart';
+import '../views/screens/liste_pages.dart';
 
 class DashboardController extends GetxController {
   final scafoldKey = GlobalKey<ScaffoldState>();

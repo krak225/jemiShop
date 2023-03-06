@@ -1,7 +1,9 @@
-part of dashboard;
+import 'package:flutter/cupertino.dart';
 
-class _TaskMenu extends StatelessWidget {
-  const _TaskMenu({
+import '../../../../shared_components/simple_selection_button.dart';
+
+class TaskMenu extends StatelessWidget {
+  const TaskMenu({
     required this.onSelected,
     Key? key,
   }) : super(key: key);

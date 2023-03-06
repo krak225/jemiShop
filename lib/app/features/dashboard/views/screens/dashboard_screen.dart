@@ -1,46 +1,24 @@
-library dashboard;
-
 import 'package:daily_task/app/constans/app_constants.dart';
-import 'package:daily_task/app/features/dashboard/views/screens/liste_pages.dart';
-import 'package:daily_task/app/shared_components/card_task.dart';
 import 'package:daily_task/app/shared_components/header_text.dart';
-import 'package:daily_task/app/shared_components/list_task_assigned.dart';
-import 'package:daily_task/app/shared_components/list_task_date.dart';
 import 'package:daily_task/app/shared_components/responsive_builder.dart';
-import 'package:daily_task/app/shared_components/search_field.dart';
-import 'package:daily_task/app/shared_components/selection_button.dart';
-import 'package:daily_task/app/shared_components/simple_selection_button.dart';
-import 'package:daily_task/app/shared_components/simple_user_profile.dart';
 import 'package:daily_task/app/shared_components/task_progress.dart';
 import 'package:daily_task/app/shared_components/user_profile.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:daily_task/app/utils/helpers/app_helpers.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-import 'home_screen.dart';
-
-// binding
-part '../../bindings/dashboard_binding.dart';
-
-// controller
-part '../../controllers/dashboard_controller.dart';
-
-// model
-
-// component
-part '../components/bottom_navbar.dart';
-part '../components/header_weekly_task.dart';
-part '../components/main_menu.dart';
-part '../components/task_menu.dart';
-part '../components/member.dart';
-part '../components/task_in_progress.dart';
-part '../components/weekly_task.dart';
-part '../components/task_group.dart';
+import '../../controllers/dashboard_controller.dart';
+import '../components/bottom_navbar.dart';
+import '../components/header_weekly_task.dart';
+import '../components/main_menu.dart';
+import '../components/task_group.dart';
+import '../components/task_in_progress.dart';
+import '../components/task_menu.dart';
+import '../components/weekly_task.dart';
 
 class DashboardScreen extends GetView<DashboardController> {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -54,6 +32,7 @@ class DashboardScreen extends GetView<DashboardController> {
         },
       child: Scaffold(
         key: controller.scafoldKey,
+        appBar: AppBar(title: Text('Jemi Shop - Tableau de bord'),),
         drawer: ResponsiveBuilder.isDesktop(context)
             ? null
             : Drawer(
@@ -63,7 +42,7 @@ class DashboardScreen extends GetView<DashboardController> {
               ),
         bottomNavigationBar: (ResponsiveBuilder.isDesktop(context) || kIsWeb)
             ? null
-            : const _BottomNavbar(),
+            : const BottomNavbar(),
         body: SafeArea(
               child: ResponsiveBuilder(
                 mobileBuilder: (context, constraints) {
@@ -164,7 +143,7 @@ class DashboardScreen extends GetView<DashboardController> {
         const SizedBox(height: 15),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: _MainMenu(onSelected: controller.onSelectedMainMenu),
+          child: MainMenu(onSelected: controller.onSelectedMainMenu),
         ),
         const Divider(
           indent: 20,
@@ -174,7 +153,7 @@ class DashboardScreen extends GetView<DashboardController> {
         ),
         //_Member(member: controller.member),
         const SizedBox(height: kSpacing),
-        _TaskMenu(
+        TaskMenu(
           onSelected: controller.onSelectedTaskMenu,
         ),
         const SizedBox(height: kSpacing),
@@ -243,11 +222,11 @@ class DashboardScreen extends GetView<DashboardController> {
             ],
           ),
           const SizedBox(height: kSpacing),
-          _TaskInProgress(data: controller.taskInProgress),
+          TaskInProgress(data: controller.taskInProgress),
           const SizedBox(height: kSpacing * 2),
-          const _HeaderWeeklyTask(),
+          const HeaderWeeklyTask(),
           const SizedBox(height: kSpacing),
-          _WeeklyTask(
+          WeeklyTask(
             data: controller.weeklyTask,
             onPressed: controller.onPressedTask,
             onPressedAssign: controller.onPressedAssignTask,
@@ -277,7 +256,7 @@ class DashboardScreen extends GetView<DashboardController> {
           const SizedBox(height: kSpacing),
           ...controller.taskGroup
               .map(
-                (e) => _TaskGroup(
+                (e) => TaskGroup(
                   title: DateFormat('d MMMM').format(e[0].date),
                   data: e,
                   onPressed: controller.onPressedTaskGroup,

@@ -1,7 +1,11 @@
-part of dashboard;
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-class _TaskGroup extends StatelessWidget {
-  const _TaskGroup({
+import '../../../../constans/app_constants.dart';
+import '../../../../shared_components/list_task_date.dart';
+
+class TaskGroup extends StatelessWidget {
+  const TaskGroup({
     required this.title,
     required this.data,
     required this.onPressed,

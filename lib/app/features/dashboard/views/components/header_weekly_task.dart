@@ -1,7 +1,11 @@
-part of dashboard;
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-class _HeaderWeeklyTask extends StatelessWidget {
-  const _HeaderWeeklyTask({Key? key}) : super(key: key);
+import '../../../../shared_components/header_text.dart';
+
+class HeaderWeeklyTask extends StatelessWidget {
+  const HeaderWeeklyTask({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

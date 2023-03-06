@@ -1,13 +1,20 @@
-part of dashboard;
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
-class _BottomNavbar extends StatefulWidget {
-  const _BottomNavbar({Key? key}) : super(key: key);
+import '../../controllers/dashboard_controller.dart';
+import '../screens/dashboard_screen.dart';
+
+class BottomNavbar extends StatefulWidget {
+  const BottomNavbar({Key? key}) : super(key: key);
 
   @override
-  State<_BottomNavbar> createState() => _BottomNavbarState();
+  State<BottomNavbar> createState() => _BottomNavbarState();
 }
 
-class _BottomNavbarState extends State<_BottomNavbar> {
+class _BottomNavbarState extends State<BottomNavbar> {
   final DashboardController controller = Get.put(DashboardController(), permanent: false);
 
   @override

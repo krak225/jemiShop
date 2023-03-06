@@ -1,7 +1,11 @@
-part of dashboard;
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
-class _TaskInProgress extends StatelessWidget {
-  const _TaskInProgress({
+import '../../../../constans/app_constants.dart';
+import '../../../../shared_components/card_task.dart';
+
+class TaskInProgress extends StatelessWidget {
+  const TaskInProgress({
     required this.data,
     Key? key,
   }) : super(key: key);

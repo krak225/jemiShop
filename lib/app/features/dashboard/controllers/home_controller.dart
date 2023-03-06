@@ -28,13 +28,13 @@ class HomeController extends GetxController {
 
   final taskInProgress = [
     CardTaskData(
-      label: "130 700",
+      label: "27 500",
       taux:45,
       jobDesk: "Aujourd'hui",
       dueDate: DateTime.now().add(const Duration(hours: 4)),
     ),
     CardTaskData(
-      label: "30 200",
+      label: "32 200",
       taux:12,
       jobDesk: "Hier",
       dueDate: DateTime.now().subtract(const Duration(days: 1)),
@@ -46,7 +46,7 @@ class HomeController extends GetxController {
       dueDate: DateTime.now().subtract(const Duration(days: 2)),
     ),
     CardTaskData(
-      label: "123 500",
+      label: "52 500",
       taux:14,
       jobDesk: "Il y a 3 jours",
       dueDate: DateTime.now().add(const Duration(hours: 4)),

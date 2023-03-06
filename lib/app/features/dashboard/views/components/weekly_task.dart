@@ -1,7 +1,9 @@
-part of dashboard;
+import 'package:flutter/cupertino.dart';
 
-class _WeeklyTask extends StatelessWidget {
-  const _WeeklyTask({
+import '../../../../shared_components/list_task_assigned.dart';
+
+class WeeklyTask extends StatelessWidget {
+  const WeeklyTask({
     required this.data,
     required this.onPressed,
     required this.onPressedAssign,

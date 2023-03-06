@@ -1,7 +1,9 @@
-part of dashboard;
+import 'package:flutter/cupertino.dart';
 
-class _Member extends StatelessWidget {
-  const _Member({
+import '../../../../shared_components/simple_user_profile.dart';
+
+class Member extends StatelessWidget {
+  const Member({
     required this.member,
     Key? key,
   }) : super(key: key);

@@ -1,3 +1,4 @@
+import '../../features/dashboard/bindings/dashboard_binding.dart';
 import '../../features/dashboard/views/screens/dashboard_screen.dart';
 import 'package:get/get.dart';
 
