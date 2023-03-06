@@ -1,6 +1,6 @@
-# todo_app
+# jemishop
 
-A Flutter by krak225
+A Flutter App by krak225
 
 ## Getting Started
 
