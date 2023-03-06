@@ -48,16 +48,3 @@ class ClientsPage extends GetView<DashboardController> {
   }
 }
 
-class CommandesPage extends GetView<DashboardController> {
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Container(
-        padding:EdgeInsets.symmetric(vertical: 50),
-        child: Center(child: Text("Commande Page", style: Theme.of(context).textTheme.headline3)
-        )
-    );
-
-  }
-}

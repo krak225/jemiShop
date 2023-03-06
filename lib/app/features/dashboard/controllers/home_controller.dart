@@ -84,6 +84,30 @@ class HomeController extends GetxController {
       label: "Un sac à dos",
       jobDesk: "Coulibaly Bakary",
     ),
+    ListTaskAssignedData(
+      icon: const Icon(EvaIcons.monitor, color: Colors.blueGrey),
+      label: "Parfum 1",
+      jobDesk: "Richmond Kouassi",
+      assignTo: "RK",
+      editDate: DateTime.now().add(-const Duration(hours: 2)),
+    ),
+    ListTaskAssignedData(
+      icon: const Icon(EvaIcons.star, color: Colors.amber),
+      label: "Parfum 2",
+      jobDesk: "Jessica",
+      assignTo: "Justin Beck",
+      editDate: DateTime.now().add(-const Duration(hours: 3)),
+    ),
+    const ListTaskAssignedData(
+      icon: Icon(EvaIcons.colorPalette, color: Colors.blue),
+      label: "Rolex 3 ",
+      jobDesk: "Cédric Kouamé",
+    ),
+    const ListTaskAssignedData(
+      icon: Icon(EvaIcons.pieChart, color: Colors.redAccent),
+      label: "Un sac",
+      jobDesk: "Coulibaly Bakary",
+    ),
   ];
 
   final taskGroup = [

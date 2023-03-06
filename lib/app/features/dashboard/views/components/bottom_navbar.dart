@@ -17,6 +17,8 @@ class BottomNavbar extends StatefulWidget {
 class _BottomNavbarState extends State<BottomNavbar> {
   final DashboardController controller = Get.put(DashboardController(), permanent: false);
 
+  int index = 0;
+
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
@@ -49,6 +51,9 @@ class _BottomNavbarState extends State<BottomNavbar> {
       showUnselectedLabels: false,
       onTap: (value) {
         controller.changeIndex(value);
+        setState(() {
+          index = value;
+        });
       },
     );
   }

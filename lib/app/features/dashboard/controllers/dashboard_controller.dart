@@ -1,3 +1,11 @@
+import 'dart:io';
+
+import 'package:dio/dio.dart' as dio;
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +20,11 @@ import '../../../shared_components/list_task_date.dart';
 import '../../../shared_components/selection_button.dart';
 import '../../../shared_components/task_progress.dart';
 import '../../../shared_components/user_profile.dart';
+import '../views/screens/clients_screen.dart';
+import '../views/screens/commandes_screen.dart';
 import '../views/screens/home_screen.dart';
 import '../views/screens/liste_pages.dart';
+import '../views/screens/produits_screen.dart';
 
 class DashboardController extends GetxController {
   final scafoldKey = GlobalKey<ScaffoldState>();
@@ -21,9 +32,9 @@ class DashboardController extends GetxController {
   final tabIndex = 0.obs;
   List<Widget> pageList = [
     HomeScreen(),
-    CommandesPage(),
-    ProduitsPage(),
-    ClientsPage(),
+    CommandesScreen(),
+    ProduitsScreen(),
+    ClientsScreen(),
   ];
 
   final pageListTitle = ["Accueil", "Commandes", "Produits", "Clients"];
@@ -51,6 +62,38 @@ class DashboardController extends GetxController {
         SystemNavigator.pop();
       },
     );
+  }
+
+  Future<List<Comment>> fetchClients(String type) async {
+
+    String user_id = _storage.read(AppConstants.USER_ID).toString();
+    String TOKEN_STORAGE = _storage.read(AppConstants.TOKEN_STORAGE).toString();
+
+    String url = AppConstants.API_URL + "/offres/"+user_id +"/"+type;
+    print (url);
+    //print(TOKEN_STORAGE);
+
+    final response = await http.get(Uri.parse(url), headers: {
+      HttpHeaders.authorizationHeader: 'Bearer $TOKEN_STORAGE',
+      HttpHeaders.contentTypeHeader: 'application/json',
+    });
+
+    if (response.statusCode == 200) {
+
+      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+
+      comments = parsed.map<Comment>((json) => Comment.fromMap(json)).toList();
+
+      return comments;
+
+    } else {
+
+      print("response Body: " + response.body);
+
+      throw Exception('Failed to load offres');
+
+    }
+
   }
 
 
@@ -121,6 +164,30 @@ class DashboardController extends GetxController {
     const ListTaskAssignedData(
       icon: Icon(EvaIcons.pieChart, color: Colors.redAccent),
       label: "Un sac à dos",
+      jobDesk: "Coulibaly Bakary",
+    ),
+    ListTaskAssignedData(
+      icon: const Icon(EvaIcons.monitor, color: Colors.blueGrey),
+      label: "Parfum 1",
+      jobDesk: "Richmond Kouassi",
+      assignTo: "RK",
+      editDate: DateTime.now().add(-const Duration(hours: 2)),
+    ),
+    ListTaskAssignedData(
+      icon: const Icon(EvaIcons.star, color: Colors.amber),
+      label: "Parfum 2",
+      jobDesk: "Jessica",
+      assignTo: "Justin Beck",
+      editDate: DateTime.now().add(-const Duration(hours: 3)),
+    ),
+    const ListTaskAssignedData(
+      icon: Icon(EvaIcons.colorPalette, color: Colors.blue),
+      label: "Rolex 3 ",
+      jobDesk: "Cédric Kouamé",
+    ),
+    const ListTaskAssignedData(
+      icon: Icon(EvaIcons.pieChart, color: Colors.redAccent),
+      label: "Un sac",
       jobDesk: "Coulibaly Bakary",
     ),
   ];

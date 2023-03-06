@@ -50,6 +50,40 @@ class DashboardScreen extends GetView<DashboardController> {
                     child: Obx(() => Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          /*const SizedBox(height: kSpacing),
+                          Row(
+                            children: [
+
+                                Padding(
+                                  padding: const EdgeInsets.only(right: kSpacing / 2),
+                                  child: IconButton(
+                                    onPressed: ()=> {},
+                                    icon: const Icon(Icons.menu),
+                                  ),
+                                ),
+                              Expanded(
+                                //child: SearchField(onSearch: controller.searchTask,hintText: "Rechercher une commande .. "),
+                                child: HeaderText("Tableau de bord"),
+                              ),
+                              Positioned(
+                                child: TextButton(
+                                  onPressed: () => {},
+                                  child:DottedBorder(
+                                    color: kFontColorPallets[3],
+                                    strokeWidth: .3,
+                                    strokeCap: StrokeCap.round,
+                                    borderType: BorderType.Circle,
+                                    child: CircleAvatar(
+                                      radius: 20,
+                                      backgroundImage: AssetImage('assets/images/raster/man.png'),
+                                      backgroundColor: Colors.greenAccent,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          */
                           controller.pageList[controller.tabIndex.value]
                         ],
                       )
