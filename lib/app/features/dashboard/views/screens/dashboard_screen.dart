@@ -1,6 +1,7 @@
 library dashboard;
 
 import 'package:daily_task/app/constans/app_constants.dart';
+import 'package:daily_task/app/features/dashboard/views/screens/liste_pages.dart';
 import 'package:daily_task/app/shared_components/card_task.dart';
 import 'package:daily_task/app/shared_components/header_text.dart';
 import 'package:daily_task/app/shared_components/list_task_assigned.dart';
@@ -15,10 +16,13 @@ import 'package:daily_task/app/shared_components/user_profile.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:daily_task/app/utils/helpers/app_helpers.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
+
+import 'home_screen.dart';
 
 // binding
 part '../../bindings/dashboard_binding.dart';
@@ -43,94 +47,106 @@ class DashboardScreen extends GetView<DashboardController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: controller.scafoldKey,
-      drawer: ResponsiveBuilder.isDesktop(context)
-          ? null
-          : Drawer(
-              child: SafeArea(
-                child: SingleChildScrollView(child: _buildSidebar(context)),
+    return WillPopScope(
+        onWillPop: () async {
+          controller.closeAppConfirm();
+          return false;
+        },
+      child: Scaffold(
+        key: controller.scafoldKey,
+        drawer: ResponsiveBuilder.isDesktop(context)
+            ? null
+            : Drawer(
+                child: SafeArea(
+                  child: SingleChildScrollView(child: _buildSidebar(context)),
+                ),
+              ),
+        bottomNavigationBar: (ResponsiveBuilder.isDesktop(context) || kIsWeb)
+            ? null
+            : const _BottomNavbar(),
+        body: SafeArea(
+              child: ResponsiveBuilder(
+                mobileBuilder: (context, constraints) {
+                  return SingleChildScrollView(
+                    child: Obx(() => Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          controller.pageList[controller.tabIndex.value]
+                        ],
+                      )
+                    )
+                  );
+                },
+                tabletBuilder: (context, constraints) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Flexible(
+                        flex: constraints.maxWidth > 800 ? 8 : 7,
+                        child: SingleChildScrollView(
+                          controller: ScrollController(),
+                          child: _buildTaskContent(
+                            onPressedMenu: () => controller.openDrawer(),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height,
+                        child: const VerticalDivider(),
+                      ),
+                      Flexible(
+                        flex: 4,
+                        child: SingleChildScrollView(
+                          controller: ScrollController(),
+                          child: Obx(() => Column(
+                            children: [
+                              controller.pageList[controller.tabIndex.value]
+                            ],
+                          )),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+                desktopBuilder: (context, constraints) {
+                  return Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Flexible(
+                        flex: constraints.maxWidth > 1350 ? 3 : 4,
+                        child: SingleChildScrollView(
+                          controller: ScrollController(),
+                          child: _buildSidebar(context),
+                        ),
+                      ),
+                      Flexible(
+                        flex: constraints.maxWidth > 1350 ? 10 : 9,
+                        child: SingleChildScrollView(
+                          controller: ScrollController(),
+                          child: Obx(() => Column(
+                            children: [
+                              controller.pageList[controller.tabIndex.value]
+                            ],
+                          )),
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height,
+                        child: const VerticalDivider(),
+                      ),
+                      Flexible(
+                        flex: 4,
+                        child: SingleChildScrollView(
+                          controller: ScrollController(),
+                          child: _buildCalendarContent(),
+                        ),
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
-      bottomNavigationBar: (ResponsiveBuilder.isDesktop(context) || kIsWeb)
-          ? null
-          : const _BottomNavbar(),
-      body: SafeArea(
-        child: ResponsiveBuilder(
-          mobileBuilder: (context, constraints) {
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildTaskContent(
-                    onPressedMenu: () => controller.openDrawer(),
-                  ),
-                  _buildCalendarContent(),
-                ],
-              ),
-            );
-          },
-          tabletBuilder: (context, constraints) {
-            return Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Flexible(
-                  flex: constraints.maxWidth > 800 ? 8 : 7,
-                  child: SingleChildScrollView(
-                    controller: ScrollController(),
-                    child: _buildTaskContent(
-                      onPressedMenu: () => controller.openDrawer(),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  child: const VerticalDivider(),
-                ),
-                Flexible(
-                  flex: 4,
-                  child: SingleChildScrollView(
-                    controller: ScrollController(),
-                    child: _buildCalendarContent(),
-                  ),
-                ),
-              ],
-            );
-          },
-          desktopBuilder: (context, constraints) {
-            return Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Flexible(
-                  flex: constraints.maxWidth > 1350 ? 3 : 4,
-                  child: SingleChildScrollView(
-                    controller: ScrollController(),
-                    child: _buildSidebar(context),
-                  ),
-                ),
-                Flexible(
-                  flex: constraints.maxWidth > 1350 ? 10 : 9,
-                  child: SingleChildScrollView(
-                    controller: ScrollController(),
-                    child: _buildTaskContent(),
-                  ),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height,
-                  child: const VerticalDivider(),
-                ),
-                Flexible(
-                  flex: 4,
-                  child: SingleChildScrollView(
-                    controller: ScrollController(),
-                    child: _buildCalendarContent(),
-                  ),
-                ),
-              ],
-            );
-          },
         ),
-      ),
     );
   }
 

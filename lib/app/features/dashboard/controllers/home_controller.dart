@@ -1,43 +1,19 @@
-part of dashboard;
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
-class DashboardController extends GetxController {
+import '../../../constans/app_constants.dart';
+import '../../../shared_components/card_task.dart';
+import '../../../shared_components/list_task_assigned.dart';
+import '../../../shared_components/list_task_date.dart';
+import '../../../shared_components/selection_button.dart';
+import '../../../shared_components/task_progress.dart';
+import '../../../shared_components/user_profile.dart';
+
+class HomeController extends GetxController {
   final scafoldKey = GlobalKey<ScaffoldState>();
-
-  final tabIndex = 0.obs;
-  List<Widget> pageList = [
-    HomeScreen(),
-    CommandesPage(),
-    ProduitsPage(),
-    ClientsPage(),
-  ];
-
-  final pageListTitle = ["Accueil", "Commandes", "Produits", "Clients"];
-
-  Future<void> changeIndex(int? index) async {
-    this.tabIndex.value = index ?? 0;
-  }
-
-  closeAppConfirm() {
-    Get.defaultDialog(
-      title: "Attention!",
-      content: Padding(
-        padding: const EdgeInsets.all(5.0),
-        child: Text(
-          "Vous êtes sur le point de sortie de l'application JemiShop.",
-          textAlign: TextAlign.center,
-        ),
-      ),
-      textConfirm: "CONTINUER",
-      textCancel: "ANNULER",
-      cancelTextColor: Colors.primaries[0],
-      confirmTextColor: Colors.white,
-      barrierDismissible: false,
-      onConfirm: () async {
-        SystemNavigator.pop();
-      },
-    );
-  }
-
 
   //////////
   final dataProfil = const UserProfileData(
@@ -162,8 +138,7 @@ class DashboardController extends GetxController {
   void onPressedProfil() {}
 
   void onSelectedMainMenu(int index, SelectionButtonData value) {
-    changeIndex(index);
-    Get.back();
+
   }
   void onSelectedTaskMenu(int index, String label) {
     //changeIndex(index);
@@ -186,4 +161,5 @@ class DashboardController extends GetxController {
       scafoldKey.currentState!.openDrawer();
     }
   }
+
 }

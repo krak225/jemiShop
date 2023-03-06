@@ -8,12 +8,12 @@ class _BottomNavbar extends StatefulWidget {
 }
 
 class _BottomNavbarState extends State<_BottomNavbar> {
-  int index = 0;
+  final DashboardController controller = Get.put(DashboardController(), permanent: false);
 
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
-      currentIndex: index,
+      currentIndex: controller.tabIndex.value,
       items: const [
         BottomNavigationBarItem(
           activeIcon: Icon(EvaIcons.home),
@@ -41,9 +41,7 @@ class _BottomNavbarState extends State<_BottomNavbar> {
       type: BottomNavigationBarType.fixed,
       showUnselectedLabels: false,
       onTap: (value) {
-        setState(() {
-          index = value;
-        });
+        controller.changeIndex(value);
       },
     );
   }
