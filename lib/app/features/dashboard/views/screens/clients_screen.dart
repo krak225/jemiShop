@@ -59,7 +59,7 @@ class ClientsScreen extends GetView<HomeController> {
           ),
           const SizedBox(height: kSpacing),
           WeeklyTask(
-            data: controller.weeklyTask,
+            data: controller.fetchClients(),
             onPressed: controller.onPressedTask,
             onPressedAssign: controller.onPressedAssignTask,
             onPressedMember: controller.onPressedMemberTask,

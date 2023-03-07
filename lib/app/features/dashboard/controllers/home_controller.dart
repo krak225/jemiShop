@@ -1,3 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:daily_task/app/utils/helpers/app_helpers.dart';
+import 'package:dio/dio.dart' as dio;
+
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +20,12 @@ import '../../../shared_components/list_task_date.dart';
 import '../../../shared_components/selection_button.dart';
 import '../../../shared_components/task_progress.dart';
 import '../../../shared_components/user_profile.dart';
+import '../Models/client.dart';
 
 class HomeController extends GetxController {
   final scafoldKey = GlobalKey<ScaffoldState>();
+
+  late List<Comment> comments = List.empty();
 
   //////////
   final dataProfil = const UserProfileData(
@@ -59,54 +71,30 @@ class HomeController extends GetxController {
     ),
   ];
 
-  final weeklyTask = [
-    ListTaskAssignedData(
-      icon: const Icon(EvaIcons.monitor, color: Colors.blueGrey),
-      label: "Parfum AIDI",
-      jobDesk: "Richmond Kouassi",
-      assignTo: "RK",
-      editDate: DateTime.now().add(-const Duration(hours: 2)),
+  late final weeklyTask = [
+    ListTile(
+      leading: const Icon(EvaIcons.monitor, color: Colors.blueGrey),
+      title: Text("Parfum AIDI"),
+      subtitle: Text(DateTime.now().add(-const Duration(hours: 2)).toString()),
+      trailing: Text("AB".getInitialName(2).toUpperCase()),
     ),
-    ListTaskAssignedData(
-      icon: const Icon(EvaIcons.star, color: Colors.amber),
-      label: "Parfum Karma 65",
-      jobDesk: "Jessica",
-      assignTo: "Justin Beck",
-      editDate: DateTime.now().add(-const Duration(hours: 3)),
+    ListTile(
+      leading: const Icon(EvaIcons.star, color: Colors.amber),
+      title: Text("Parfum AIDI"),
+      subtitle: Text(DateTime.now().add(-const Duration(hours: 2)).toString()),
+      trailing: Text("AB".getInitialName(2).toUpperCase()),
     ),
-    const ListTaskAssignedData(
-      icon: Icon(EvaIcons.colorPalette, color: Colors.blue),
-      label: "Rolex NIVEA ",
-      jobDesk: "Cédric Kouamé",
+    ListTile(
+      leading: Icon(EvaIcons.colorPalette, color: Colors.blue),
+      title: Text("Parfum AIDI"),
+      subtitle: Text(DateTime.now().add(-const Duration(hours: 2)).toString()),
+      trailing: Text("AB".getInitialName(2).toUpperCase()),
     ),
-    const ListTaskAssignedData(
-      icon: Icon(EvaIcons.pieChart, color: Colors.redAccent),
-      label: "Un sac à dos",
-      jobDesk: "Coulibaly Bakary",
-    ),
-    ListTaskAssignedData(
-      icon: const Icon(EvaIcons.monitor, color: Colors.blueGrey),
-      label: "Parfum 1",
-      jobDesk: "Richmond Kouassi",
-      assignTo: "RK",
-      editDate: DateTime.now().add(-const Duration(hours: 2)),
-    ),
-    ListTaskAssignedData(
-      icon: const Icon(EvaIcons.star, color: Colors.amber),
-      label: "Parfum 2",
-      jobDesk: "Jessica",
-      assignTo: "Justin Beck",
-      editDate: DateTime.now().add(-const Duration(hours: 3)),
-    ),
-    const ListTaskAssignedData(
-      icon: Icon(EvaIcons.colorPalette, color: Colors.blue),
-      label: "Rolex 3 ",
-      jobDesk: "Cédric Kouamé",
-    ),
-    const ListTaskAssignedData(
-      icon: Icon(EvaIcons.pieChart, color: Colors.redAccent),
-      label: "Un sac",
-      jobDesk: "Coulibaly Bakary",
+    ListTile(
+      leading: Icon(EvaIcons.pieChart, color: Colors.redAccent),
+      title: Text("Parfum AIDI"),
+      subtitle: Text(DateTime.now().add(-const Duration(hours: 2)).toString()),
+      trailing: Text("AB".getInitialName(2).toUpperCase()),
     ),
   ];
 
@@ -171,19 +159,51 @@ class HomeController extends GetxController {
 
   void searchTask(String value) {}
 
-  void onPressedTask(int index, ListTaskAssignedData data) {
+  void onPressedTask(int index, Comment data) {
     //Fluttertoast.showToast(msg: data.label);
   }
 
-  void onPressedAssignTask(int index, ListTaskAssignedData data) {}
-  void onPressedMemberTask(int index, ListTaskAssignedData data) {}
+  void onPressedAssignTask(int index, Comment data) {}
+  void onPressedMemberTask(int index, Comment data) {}
   void onPressedCalendar() {}
-  void onPressedTaskGroup(int index, ListTaskDateData data) {}
+  void onPressedTaskGroup(int index, Comment data) {}
 
   void openDrawer() {
     if (scafoldKey.currentState != null) {
       scafoldKey.currentState!.openDrawer();
     }
   }
+
+
+
+  //
+
+  Future<List<Comment>> fetchClients() async {
+
+    String url = "http://jobboard.target-ci.com/api/clients";
+
+    final response = await http.get(Uri.parse(url), headers: {
+      //HttpHeaders.authorizationHeader: 'Bearer $TOKEN_STORAGE',
+      HttpHeaders.contentTypeHeader: 'application/json',
+    });
+
+    if (response.statusCode == 200) {
+
+      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+
+      comments = parsed.map<Comment>((json) => Comment.fromMap(json)).toList();
+
+      return comments;
+
+    } else {
+
+      print("response Body: " + response.body);
+
+      throw Exception('Failed to load offres');
+
+    }
+
+  }
+
 
 }

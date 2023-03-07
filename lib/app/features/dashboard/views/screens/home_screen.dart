@@ -84,7 +84,7 @@ class HomeScreen extends GetView<HomeController> {
           const HeaderWeeklyTask(),
           const SizedBox(height: kSpacing),
           WeeklyTask(
-            data: controller.weeklyTask,
+            data: controller.fetchClients(),
             onPressed: controller.onPressedTask,
             onPressedAssign: controller.onPressedAssignTask,
             onPressedMember: controller.onPressedMemberTask,

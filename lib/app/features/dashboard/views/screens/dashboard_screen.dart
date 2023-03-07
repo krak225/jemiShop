@@ -256,16 +256,16 @@ class DashboardScreen extends GetView<DashboardController> {
             ],
           ),
           const SizedBox(height: kSpacing),
-          TaskInProgress(data: controller.taskInProgress),
+          //TaskInProgress(data: controller.taskInProgress),
           const SizedBox(height: kSpacing * 2),
-          const HeaderWeeklyTask(),
+          //const HeaderWeeklyTask(),
           const SizedBox(height: kSpacing),
-          WeeklyTask(
+          /*WeeklyTask(
             data: controller.weeklyTask,
             onPressed: controller.onPressedTask,
             onPressedAssign: controller.onPressedAssignTask,
             onPressedMember: controller.onPressedMemberTask,
-          )
+          )*/
         ],
       ),
     );

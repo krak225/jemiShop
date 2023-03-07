@@ -5,24 +5,10 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-class ListTaskAssignedData {
-  final Icon icon;
-  final String label;
-  final String jobDesk;
-  final DateTime? editDate;
-  final String? assignTo;
+import '../features/dashboard/Models/client.dart';
 
-  const ListTaskAssignedData({
-    required this.icon,
-    required this.label,
-    required this.jobDesk,
-    this.editDate,
-    this.assignTo,
-  });
-}
-
-class ListTaskAssigned extends StatelessWidget {
-  const ListTaskAssigned({
+class BuildListClients extends StatelessWidget {
+  const BuildListClients({
     required this.data,
     required this.onPressed,
     required this.onPressedAssign,
@@ -30,13 +16,14 @@ class ListTaskAssigned extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final ListTaskAssignedData data;
+  final Comment data;
   final Function() onPressed;
   final Function()? onPressedAssign;
   final Function()? onPressedMember;
 
   @override
   Widget build(BuildContext context) {
+
     return ListTile(
       onTap: onPressed,
       hoverColor: Colors.transparent,
@@ -58,13 +45,13 @@ class ListTaskAssigned extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         color: Colors.blueGrey.withOpacity(.1),
       ),
-      child: data.icon,
+      child: Icon(Icons.person)//data.icon,
     );
   }
 
   Widget _buildTitle() {
     return Text(
-      data.label,
+      data.offretitre,
       style: const TextStyle(fontWeight: FontWeight.bold),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
@@ -74,29 +61,29 @@ class ListTaskAssigned extends StatelessWidget {
   Widget _buildSubtitle() {
     String edit = "";
 
-    if (data.editDate != null) {
-      edit = " \u2022  ${timeago.format(data.editDate!)}";
+    if (data.offre_datefin != null) {
+      edit = " \u2022  ${data.offre_datefin}";//" \u2022  ${timeago.format(data.experience!)}";
     }
 
     return Text(
-      data.jobDesk + edit,
+      data.diplome + edit,
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
     );
   }
 
   Widget _buildAssign() {
-    return (data.assignTo != null)
+    return (data.offretitre != null)
         ? InkWell(
             onTap: onPressedMember,
             borderRadius: BorderRadius.circular(22),
             child: Tooltip(
-              message: data.assignTo!,
+              message: data.offretitre!,
               child: CircleAvatar(
                 radius: 22,
                 backgroundColor: Colors.orange.withOpacity(.2),
                 child: Text(
-                  data.assignTo!.getInitialName(2).toUpperCase(),
+                  data.offrenombreposte.toString()!.getInitialName(2).toUpperCase(),
                   style: const TextStyle(
                     color: Colors.orange,
                     fontWeight: FontWeight.bold,
