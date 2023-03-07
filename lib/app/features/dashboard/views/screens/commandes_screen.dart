@@ -7,7 +7,7 @@ import '../../../../constans/app_constants.dart';
 import '../../../../shared_components/header_text.dart';
 import '../../controllers/home_controller.dart';
 import '../components/ligne_horizontal.dart';
-import '../components/weekly_task.dart';
+import '../components/liste_clients.dart';
 
 class CommandesScreen extends GetView<HomeController> {
   const CommandesScreen({Key? key}) : super(key: key);
@@ -58,7 +58,7 @@ class CommandesScreen extends GetView<HomeController> {
             ],
           ),
           const SizedBox(height: kSpacing),
-          WeeklyTask(
+          ListeClients(
             data: controller.fetchClients(),
             onPressed: controller.onPressedTask,
             onPressedAssign: controller.onPressedAssignTask,

@@ -16,21 +16,22 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import '../../../constans/app_constants.dart';
 import '../../../shared_components/card_task.dart';
-import '../../../shared_components/list_task_assigned.dart';
+import '../../../shared_components/build_liste_clients.dart';
 import '../../../shared_components/list_task_date.dart';
 import '../../../shared_components/selection_button.dart';
 import '../../../shared_components/task_progress.dart';
 import '../../../shared_components/user_profile.dart';
-import '../Models/client.dart';
+import '../model/client.dart';
 import '../views/screens/clients_screen.dart';
 import '../views/screens/commandes_screen.dart';
 import '../views/screens/home_screen.dart';
 import '../views/screens/liste_pages.dart';
+import '../views/screens/messages_screen.dart';
 import '../views/screens/produits_screen.dart';
 
 class DashboardController extends GetxController {
   final scafoldKey = GlobalKey<ScaffoldState>();
-  late List<Comment> clients;
+  late List<Client> clients;
 
   final tabIndex = 0.obs;
   List<Widget> pageList = [
@@ -38,6 +39,7 @@ class DashboardController extends GetxController {
     CommandesScreen(),
     ProduitsScreen(),
     ClientsScreen(),
+    MessagesScreen(),
   ];
 
   final pageListTitle = ["Accueil", "Commandes", "Produits", "Clients"];
@@ -173,12 +175,12 @@ class DashboardController extends GetxController {
 
   void searchTask(String value) {}
 
-  void onPressedTask(int index, Comment data) {
+  void onPressedTask(int index, Client data) {
     //Fluttertoast.showToast(msg: data.label);
   }
 
-  void onPressedAssignTask(int index, Comment data) {}
-  void onPressedMemberTask(int index, Comment data) {}
+  void onPressedAssignTask(int index, Client data) {}
+  void onPressedMemberTask(int index, Client data) {}
   void onPressedCalendar() {}
   void onPressedTaskGroup(int index, ListTaskDateData data) {}
 

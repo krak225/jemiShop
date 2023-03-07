@@ -10,7 +10,7 @@ import '../../../../shared_components/task_progress.dart';
 import '../../controllers/home_controller.dart';
 import '../components/header_weekly_task.dart';
 import '../components/task_in_progress.dart';
-import '../components/weekly_task.dart';
+import '../components/liste_clients.dart';
 
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({Key? key}) : super(key: key);
@@ -83,7 +83,7 @@ class HomeScreen extends GetView<HomeController> {
           const SizedBox(height: kSpacing * 2),
           const HeaderWeeklyTask(),
           const SizedBox(height: kSpacing),
-          WeeklyTask(
+          ListeClients(
             data: controller.fetchClients(),
             onPressed: controller.onPressedTask,
             onPressedAssign: controller.onPressedAssignTask,

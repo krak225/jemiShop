@@ -18,7 +18,7 @@ import '../components/main_menu.dart';
 import '../components/task_group.dart';
 import '../components/task_in_progress.dart';
 import '../components/task_menu.dart';
-import '../components/weekly_task.dart';
+import '../components/liste_clients.dart';
 
 class DashboardScreen extends GetView<DashboardController> {
   const DashboardScreen({Key? key}) : super(key: key);

@@ -15,17 +15,19 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 import '../../../constans/app_constants.dart';
 import '../../../shared_components/card_task.dart';
-import '../../../shared_components/list_task_assigned.dart';
+import '../../../shared_components/build_liste_clients.dart';
 import '../../../shared_components/list_task_date.dart';
 import '../../../shared_components/selection_button.dart';
 import '../../../shared_components/task_progress.dart';
 import '../../../shared_components/user_profile.dart';
-import '../Models/client.dart';
+import '../model/client.dart';
+import '../model/produit.dart';
 
 class HomeController extends GetxController {
   final scafoldKey = GlobalKey<ScaffoldState>();
 
-  late List<Comment> comments = List.empty();
+  late List<Client> comments = List.empty();
+  late List<Produit> produits = List.empty();
 
   //////////
   final dataProfil = const UserProfileData(
@@ -159,14 +161,14 @@ class HomeController extends GetxController {
 
   void searchTask(String value) {}
 
-  void onPressedTask(int index, Comment data) {
+  void onPressedTask(int index, Client data) {
     //Fluttertoast.showToast(msg: data.label);
   }
 
-  void onPressedAssignTask(int index, Comment data) {}
-  void onPressedMemberTask(int index, Comment data) {}
+  void onPressedAssignTask(int index, Client data) {}
+  void onPressedMemberTask(int index, Client data) {}
   void onPressedCalendar() {}
-  void onPressedTaskGroup(int index, Comment data) {}
+  void onPressedTaskGroup(int index, Client data) {}
 
   void openDrawer() {
     if (scafoldKey.currentState != null) {
@@ -178,7 +180,7 @@ class HomeController extends GetxController {
 
   //
 
-  Future<List<Comment>> fetchClients() async {
+  Future<List<Client>> fetchClients() async {
 
     String url = "http://jobboard.target-ci.com/api/clients";
 
@@ -187,11 +189,13 @@ class HomeController extends GetxController {
       HttpHeaders.contentTypeHeader: 'application/json',
     });
 
+    print(url);
+
     if (response.statusCode == 200) {
 
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
-      comments = parsed.map<Comment>((json) => Comment.fromMap(json)).toList();
+      comments = parsed.map<Client>((json) => Client.fromMap(json)).toList();
 
       return comments;
 
@@ -199,11 +203,37 @@ class HomeController extends GetxController {
 
       print("response Body: " + response.body);
 
-      throw Exception('Failed to load offres');
+      throw Exception('Failed to load clients');
 
     }
 
   }
 
+  Future<List<Produit>> fetchProduits() async {
+
+    String url = "http://jobboard.target-ci.com/api/produits";
+
+    final response = await http.get(Uri.parse(url), headers: {
+      //HttpHeaders.authorizationHeader: 'Bearer $TOKEN_STORAGE',
+      HttpHeaders.contentTypeHeader: 'application/json',
+    });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+
+      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+
+      return parsed.map<Produit>((json) => Produit.fromMap(json)).toList();
+
+    } else {
+
+      print("response Body: " + response.body);
+
+      throw Exception('Failed to load clients');
+
+    }
+
+  }
 
 }

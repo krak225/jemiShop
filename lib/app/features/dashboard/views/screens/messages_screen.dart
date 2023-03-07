@@ -7,23 +7,22 @@ import '../../../../constans/app_constants.dart';
 import '../../../../shared_components/header_text.dart';
 import '../../controllers/home_controller.dart';
 import '../components/ligne_horizontal.dart';
-import '../components/liste_produits.dart';
 import '../components/liste_clients.dart';
 
-class ProduitsScreen extends GetView<HomeController> {
-  const ProduitsScreen({Key? key}) : super(key: key);
+class MessagesScreen extends GetView<HomeController> {
+  const MessagesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
         controller: ScrollController(),
-        child: _buildContent(
+        child: _buildClientsContent(
           onPressedMenu: () => controller.openDrawer(),
         )
     );
   }
 
-  Widget _buildContent({Function()? onPressedMenu}) {
+  Widget _buildClientsContent({Function()? onPressedMenu}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: kSpacing),
       child: Column(
@@ -39,7 +38,7 @@ class ProduitsScreen extends GetView<HomeController> {
           const SizedBox(height: kSpacing * 1),
           Row(
             children: [
-              const HeaderText("Mes produits"),
+              const HeaderText("Discussions"),
               const Spacer(),
               const SizedBox(width: 10),
               ElevatedButton.icon(
@@ -59,8 +58,8 @@ class ProduitsScreen extends GetView<HomeController> {
             ],
           ),
           const SizedBox(height: kSpacing),
-          ListeProduits(
-            data: controller.fetchProduits(),
+          ListeClients(
+            data: controller.fetchClients(),
             onPressed: controller.onPressedTask,
             onPressedAssign: controller.onPressedAssignTask,
             onPressedMember: controller.onPressedMemberTask,

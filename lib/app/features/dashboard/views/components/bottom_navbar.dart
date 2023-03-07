@@ -44,6 +44,11 @@ class _BottomNavbarState extends State<BottomNavbar> {
           icon: Icon(EvaIcons.peopleOutline),
           label: "Mes clients",
         ),
+        /*BottomNavigationBarItem(
+          activeIcon: Icon(EvaIcons.messageSquare),
+          icon: Icon(EvaIcons.messageSquareOutline),
+          label: "Messages",
+        ),*/
       ],
       selectedItemColor: Theme.of(context).primaryColor,
       unselectedItemColor: Theme.of(context).primaryColor.withOpacity(.5),
