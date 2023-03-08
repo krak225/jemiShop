@@ -1,6 +1,8 @@
+import 'package:daily_task/app/shared_components/user_profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../shared_components/bottom_sheet_user_details.dart';
 import '../../../../shared_components/build_liste_clients.dart';
 import '../../model/client.dart';
 
@@ -34,7 +36,18 @@ class ListeClients extends StatelessWidget {
             return Column(
                 children: List.generate(
                   clients!.length, (index) =>
-                    BuildListClients(client: clients[index], onPressed: () => {}, onPressedAssign: () => {}, onPressedMember: () => {},),
+                    BuildListClients(client: clients[index],
+                      onPressed: () =>
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        builder: (context) {
+
+                          return UserDetailsBottomSheet(clients[index]);
+
+                        }),
+
+                      onPressedAssign: () => {}, onPressedMember: () => {},),
                   ),
                 );
 

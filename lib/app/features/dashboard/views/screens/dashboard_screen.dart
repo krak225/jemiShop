@@ -11,6 +11,7 @@ import 'package:daily_task/app/utils/helpers/app_helpers.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+import '../../../../shared_components/animated_app_bar.dart';
 import '../../controllers/dashboard_controller.dart';
 import '../components/bottom_navbar.dart';
 import '../components/header_weekly_task.dart';
@@ -20,8 +21,9 @@ import '../components/task_in_progress.dart';
 import '../components/task_menu.dart';
 import '../components/liste_clients.dart';
 
-class DashboardScreen extends GetView<DashboardController> {
-  const DashboardScreen({Key? key}) : super(key: key);
+class DashboardScreen extends GetView<DashboardController>{
+  DashboardScreen({Key? key}) : super(key: key);
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,18 @@ class DashboardScreen extends GetView<DashboardController> {
         },
       child: Scaffold(
         key: controller.scafoldKey,
-        appBar: AppBar(title: Text('Jemi Shop - Tableau de bord'),),
+        appBar: AppBar(title: Text('Dove Paradis - Tableau de bord'),),
+        /*appBar: AnimatedAppBar(
+          drawerTween: null,
+          onPressed: () {
+            controller.openDrawer();
+          },
+          colorAnimationController: controller.ColorAnimationController,
+          colorTween: null,
+          homeTween: null,
+          iconTween: null,
+          workOutTween: null,
+        ),*/
         drawer: ResponsiveBuilder.isDesktop(context)
             ? null
             : Drawer(
@@ -43,7 +56,9 @@ class DashboardScreen extends GetView<DashboardController> {
         bottomNavigationBar: (ResponsiveBuilder.isDesktop(context) || kIsWeb)
             ? null
             : const BottomNavbar(),
-        body: SafeArea(
+        body: NotificationListener<ScrollNotification>(
+    onNotification: controller.scrollListener,
+    child: SafeArea(
               child: ResponsiveBuilder(
                 mobileBuilder: (context, constraints) {
                   return SingleChildScrollView(
@@ -159,6 +174,7 @@ class DashboardScreen extends GetView<DashboardController> {
                 },
               ),
             ),
+          ),
         ),
     );
   }

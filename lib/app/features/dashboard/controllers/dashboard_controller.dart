@@ -29,8 +29,40 @@ import '../views/screens/liste_pages.dart';
 import '../views/screens/messages_screen.dart';
 import '../views/screens/produits_screen.dart';
 
-class DashboardController extends GetxController {
+class DashboardController extends GetxController with GetSingleTickerProviderStateMixin {
   final scafoldKey = GlobalKey<ScaffoldState>();
+  // ignore: non_constant_identifier_names
+  late AnimationController _ColorAnimationController;
+
+  // ignore: non_constant_identifier_names
+  late AnimationController _TextAnimationController;
+  late Animation _colorTween, _homeTween, _workOutTween, _iconTween, _drawerTween;
+
+  DashboardController();
+
+  get ColorAnimationController => _ColorAnimationController;
+  //get colorTween => _colorTween;
+  //get homeTween => _homeTween;
+  //get workOutTween => _workOutTween;
+  //get iconTween => _iconTween;
+  //get drawerTween => _drawerTween;
+
+  bool scrollListener(ScrollNotification scrollInfo) {
+    bool scroll = false;
+
+    print(scrollInfo.metrics.pixels);
+
+    if (scrollInfo.metrics.axis == Axis.vertical) {
+      //_ColorAnimationController.animateTo(scrollInfo.metrics.pixels / 80);
+
+      //_TextAnimationController.animateTo(scrollInfo.metrics.pixels);
+      return scroll = true;
+    }
+
+
+    return scroll;
+  }
+
   late List<Client> clients;
 
   final tabIndex = 0.obs;
@@ -190,6 +222,31 @@ class DashboardController extends GetxController {
     }
   }
 
+  @override
+  void onInit() {
 
+    //_ColorAnimationController = AnimationController(vsync: this, duration: Duration(seconds: 0));
+
+    //_colorTween = ColorTween(begin: Colors.transparent, end: Colors.white)
+    //    .animate(_ColorAnimationController);
+
+    /*
+    _iconTween =
+        ColorTween(begin: Colors.white, end: Colors.lightBlue.withOpacity(0.5))
+            .animate(_ColorAnimationController);
+    _drawerTween = ColorTween(begin: Colors.white, end: Colors.black)
+        .animate(_ColorAnimationController);
+    _homeTween = ColorTween(begin: Colors.white, end: Colors.blue)
+        .animate(_ColorAnimationController);
+    _workOutTween = ColorTween(begin: Colors.white, end: Colors.black)
+        .animate(_ColorAnimationController);
+    _TextAnimationController =
+        AnimationController(vsync: this, duration: Duration(seconds: 0));
+
+     */
+
+    super.onInit();
+
+  }
 
 }

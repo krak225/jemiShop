@@ -12,7 +12,7 @@ class AppPages {
   static final routes = [
     GetPage(
       name: _Paths.dashboard,
-      page: () => const DashboardScreen(),
+      page: () => DashboardScreen(),
       binding: DashboardBinding(),
     ),
   ];
