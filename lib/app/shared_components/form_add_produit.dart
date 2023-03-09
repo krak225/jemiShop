@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:daily_task/app/features/dashboard/controllers/dashboard_controller.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
 
 import '../utils/ui/theme/custom_input_decoration.dart';
+import '../utils/ui/theme/light_color.dart';
 
 class FormAddProduit extends StatelessWidget {
   final DashboardController controller = Get.find();
@@ -130,63 +134,45 @@ class FormAddProduit extends StatelessWidget {
                   SizedBox(height: Get.height * 0.02),
                   Text("Joindres des photos"),
                   FadeInRight(
-                    child: Obx(() =>Row(
-                          children: [
-                            InkWell(
-                              onTap: () => controller.pickPhotoProduit(1),
-                              child: Card(
-                                child: Icon(
-                                  Icons.image,
-                                  color: controller.has_photo1.value ? Colors.green : Colors.grey,
-                                  size: 80.0,
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 10,),
-                            InkWell(
-                              onTap: () => controller.pickPhotoProduit(2),
-                              child: Card(
-                                child: Icon(
-                                  Icons.image,
-                                  color: controller.has_photo2.value ? Colors.green : Colors.grey,
-                                  size: 80.0,
-                                ),
-                              ),
-                            ),
-                            SizedBox(width: 10,),
-                            InkWell(
-                              onTap: () => controller.pickPhotoProduit(3),
-                              child: Card(
-                                child: Icon(
-                                  Icons.image,
-                                  color: controller.has_photo3.value ? Colors.green : Colors.grey,
-                                  size: 80.0,
-                                ),
-                              ),
+                    child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(3),
+                          boxShadow: [
+                            BoxShadow(
+                              color: LightColor.lightGrey2,
+                              blurRadius: 2,
+                              offset: Offset(0, 2),
                             )
                           ],
                         ),
-                    ),
-                  ),
-                  /*
-                  FadeInRight(
-                    child: FormBuilderFilePicker(
-                      name: "images",
-                      decoration: InputDecoration(labelText: "Photos"),
-                      maxFiles: 2,
-                      previewImages: true,
-                      onChanged: (val) => print(val),
-                      selector: Row(
-                        children: <Widget>[
-                          Icon(Icons.image),
-                          Icon(Icons.image),
-                        ],
+                        child: Obx(()=>Row(
+                          children: [
+                            Row(
+                                children:controller.photos.map((photo) => FadeInRight(
+                                  child: Card(
+                                      child: Container(width: 50, height: 50,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: Image.file(File(photo.path)).image,
+                                                fit: BoxFit.cover),
+                                          )
+                                      )
+                                  ),
+                                )
+                                ).toList()
+                            ),
+                            InkWell(
+                              onTap: () => controller.pickPhotoProduit(0),
+                              child: Card(
+                                  child: Container(width: 50, height: 50, child: Icon(EvaIcons.imageOutline, color: Colors.blueGrey,))
+                              ),
+                            ),
+                          ]
+                        ),
                       ),
-                      onFileLoading: (val) {
-                        print(val);
-                      },
                     ),
-                  ),*/
+                    ),
                 ]),
                 ),
                 SizedBox(height: Get.height * 0.04),

@@ -25,6 +25,8 @@ class RegisterRepo {
   }
 
   Future<Response> saveProduit({required dynamic data}) async {
+
+    print(data);
     return await dioService.postData('/produit', data: data);
   }
 

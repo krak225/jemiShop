@@ -1,5 +1,8 @@
 import 'dart:async';
+import 'dart:io' as Io;
+import 'dart:io';
 import 'package:dio/dio.dart' as dio;
+import 'package:file_picker/file_picker.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -26,6 +29,10 @@ import '../views/screens/messages_screen.dart';
 import '../views/screens/produits_screen.dart';
 
 class DashboardController extends GetxController with GetSingleTickerProviderStateMixin {
+  late Io.File file_picked;
+  RxBool is_file_picked = false.obs;
+  final RxList<File> photos = <File>[].obs;
+
 
   //
   final RxBool isHide = false.obs;
@@ -269,26 +276,27 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
       has_photo3.value = true;
     }
 
-    /*FilePickerResult? result = await FilePicker.platform.pickFiles();
+    is_file_picked = false.obs;
 
-    if (result != null) {
-      File file = File(result.files.single.path!);
-    } else {
-      // User canceled the picker
+    FilePickerResult? pickedFiles = await FilePicker.platform.pickFiles(
+      allowMultiple: true,
+      type: FileType.image,
+      //allowedExtensions: ['jpg', 'png', 'doc'],
+    );
+    print(pickedFiles?.paths.toString());
+    if(pickedFiles != null) {
+
+      for (var path in pickedFiles.paths) {
+        file_picked = Io.File(path!);
+        photos.add(file_picked);
+      }
+
+      print(photos);
+
+    }else{
+      SnackbarUi.error("Erreur lors de la sélection du document");
     }
-    print (result);
 
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-
-      path = pickedFile.path;
-      print (path);
-
-    } else {
-      print('Aucune photo sélectionnée.');
-    }
-    update();*/
   }
 
 
@@ -303,8 +311,11 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
 
       var data = Map<String, dynamic>.from(formKey.currentState!.value);
 
-
-      //data['cni'] = await dio.MultipartFile.fromFile(document_path_cni, filename: 'cni');
+      int i = 0;
+      for (var ph in photos) {
+        data['ph'+i.toString()] = await dio.MultipartFile.fromFile(ph.path, filename: 'photo');
+        i++;
+      }
 
       var formData = dio.FormData.fromMap(data);
 
@@ -313,7 +324,7 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
       print(response.data.toString());
 
       if (response.statusCode == 200) {
-
+        isLoading.value = false;
         //RegisterResponse registerResponse = RegisterResponse.fromJson(response.data);
         //this.registerRepo.sessionDataSave(registerResponse);user123
 
@@ -360,7 +371,7 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
       print(response.data.toString());
 
       if (response.statusCode == 200) {
-
+        isLoading.value = false;
         //RegisterResponse registerResponse = RegisterResponse.fromJson(response.data);
         //this.registerRepo.sessionDataSave(registerResponse);user123
 
@@ -410,7 +421,7 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
       print(response.data.toString());
 
       if (response.statusCode == 200) {
-
+        isLoading.value = false;
         //RegisterResponse registerResponse = RegisterResponse.fromJson(response.data);
         //this.registerRepo.sessionDataSave(registerResponse);user123
 
