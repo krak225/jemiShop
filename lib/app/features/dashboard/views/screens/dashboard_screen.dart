@@ -210,7 +210,7 @@ class DashboardScreen extends GetView<DashboardController>{
         Padding(
           padding: const EdgeInsets.all(kSpacing),
           child: Text(
-            "© 2023 JemiShop | Design by krak225",
+            "© 2023 Dove Paradis | Design by krak225",
             style: Theme.of(context).textTheme.caption,
           ),
         ),

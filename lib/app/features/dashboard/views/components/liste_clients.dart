@@ -39,14 +39,15 @@ class ListeClients extends StatelessWidget {
                     BuildListClients(client: clients[index],
                       onPressed: () =>
                       showModalBottomSheet(
+                        backgroundColor: Colors.transparent,
                         context: context,
                         isScrollControlled: true,
                         builder: (context) {
 
                           return UserDetailsBottomSheet(clients[index]);
 
-                        }),
-
+                        }
+                      ),
                       onPressedAssign: () => {}, onPressedMember: () => {},),
                   ),
                 );

@@ -60,7 +60,7 @@ class BuildListProduits extends StatelessWidget {
 
   Widget _buildSubtitle() {
     return Text(
-      produit.categorie + " - " + produit.date_creation,
+      produit.categorie + " - en print('');: " + produit.quantite_restante.toString(),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
     );

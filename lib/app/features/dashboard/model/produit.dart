@@ -26,10 +26,10 @@ class Produit{
     nom: json["nom"],
     photo: json["photo"],
     categorie: json["categorie"],
-    prix: json["prix"],
-    quantite_total: json["quantite_total"],
-    quantite_achete: json["quantite_achete"],
-    quantite_restante: json["quantite_restante"],
+    prix: int.parse(json["prix"]),
+    quantite_total: int.parse(json["quantite_total"]),
+    quantite_achete: int.parse(json["quantite_achete"]),
+    quantite_restante: int.parse(json["quantite_restante"]),
     date_creation: json["date_creation"],
   );
 

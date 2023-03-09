@@ -1,36 +1,43 @@
-import 'dart:convert';
-import 'dart:io';
-
+import 'dart:async';
 import 'package:dio/dio.dart' as dio;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
-
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
+import '../../../config/routes/app_pages.dart';
 import '../../../constans/app_constants.dart';
+import '../../../data/provider/repositories/register_repo.dart';
 import '../../../shared_components/card_task.dart';
-import '../../../shared_components/build_liste_clients.dart';
 import '../../../shared_components/list_task_date.dart';
 import '../../../shared_components/selection_button.dart';
 import '../../../shared_components/task_progress.dart';
 import '../../../shared_components/user_profile.dart';
+import '../../../utils/ui/theme/snackbar_ui.dart';
 import '../model/client.dart';
 import '../views/screens/clients_screen.dart';
 import '../views/screens/commandes_screen.dart';
 import '../views/screens/home_screen.dart';
-import '../views/screens/liste_pages.dart';
 import '../views/screens/messages_screen.dart';
 import '../views/screens/produits_screen.dart';
 
 class DashboardController extends GetxController with GetSingleTickerProviderStateMixin {
+
+  //
+  final RxBool isHide = false.obs;
+  final RxBool isHide2 = false.obs;
+  //final AuthRepo authRepo = Get.find();
+  final RegisterRepo registerRepo = Get.find();
+  final RxBool isLoading = false.obs;
+  final GetStorage _storage = GetStorage();
+  final RxBool has_photo1 = false.obs, has_photo2 = false.obs, has_photo3 = false.obs;
+
   final scafoldKey = GlobalKey<ScaffoldState>();
+  GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
   // ignore: non_constant_identifier_names
   late AnimationController _ColorAnimationController;
 
@@ -224,7 +231,6 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
 
   @override
   void onInit() {
-
     //_ColorAnimationController = AnimationController(vsync: this, duration: Duration(seconds: 0));
 
     //_colorTween = ColorTween(begin: Colors.transparent, end: Colors.white)
@@ -248,5 +254,190 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
     super.onInit();
 
   }
+
+
+
+  String path =  '';
+  //final picker = ImagePicker();
+
+  Future<void> pickPhotoProduit(int i) async {
+    if(i == 1) {
+      has_photo1.value = true;
+    }else if(i == 2) {
+      has_photo2.value = true;
+    }else if(i == 3) {
+      has_photo3.value = true;
+    }
+
+    /*FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      File file = File(result.files.single.path!);
+    } else {
+      // User canceled the picker
+    }
+    print (result);
+
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+
+      path = pickedFile.path;
+      print (path);
+
+    } else {
+      print('Aucune photo sélectionnée.');
+    }
+    update();*/
+  }
+
+
+  Future<void> saveProduit() async {
+
+    formKey.currentState!.save();
+
+    if (formKey.currentState!.validate()) {
+      isLoading.value = true;
+      //SnackbarUi.info(formKey.currentState!.value);
+      print(formKey.currentState!.value);
+
+      var data = Map<String, dynamic>.from(formKey.currentState!.value);
+
+
+      //data['cni'] = await dio.MultipartFile.fromFile(document_path_cni, filename: 'cni');
+
+      var formData = dio.FormData.fromMap(data);
+
+      dio.Response response = await this.registerRepo.saveProduit(data: formData);
+
+      print(response.data.toString());
+
+      if (response.statusCode == 200) {
+
+        //RegisterResponse registerResponse = RegisterResponse.fromJson(response.data);
+        //this.registerRepo.sessionDataSave(registerResponse);user123
+
+        //le connecter en même temps
+        //LoginResponse loginResponse = LoginResponse.fromJson(response.data);
+        //this.authRepo.sessionTokenDataSave(loginResponse);
+        //isLoading.value = true;
+        SnackbarUi.success("Produit ajouté avec succès");
+
+        //
+        Get.offAllNamed(AppPages.initial);
+
+      } else {
+        SnackbarUi.error(response.data.toString());
+        isLoading.value = false;
+      }
+
+      isLoading.value = false;
+
+    } else {
+      SnackbarUi.error("Veuillez renseigner correctement le formulaire");
+      isLoading.value = false;
+    }
+
+  }
+
+  Future<void> saveClient() async {
+
+    formKey.currentState!.save();
+
+    if (formKey.currentState!.validate()) {
+      isLoading.value = true;
+      //SnackbarUi.info(formKey.currentState!.value);
+      print(formKey.currentState!.value);
+
+      var data = Map<String, dynamic>.from(formKey.currentState!.value);
+
+      //data['cni'] = await dio.MultipartFile.fromFile(document_path_cni, filename: 'cni');
+
+      var formData = dio.FormData.fromMap(data);
+
+      dio.Response response = await this.registerRepo.saveClient(data: formData);
+
+      print(response.data.toString());
+
+      if (response.statusCode == 200) {
+
+        //RegisterResponse registerResponse = RegisterResponse.fromJson(response.data);
+        //this.registerRepo.sessionDataSave(registerResponse);user123
+
+        //le connecter en même temps
+        //LoginResponse loginResponse = LoginResponse.fromJson(response.data);
+        //this.authRepo.sessionTokenDataSave(loginResponse);
+        //isLoading.value = true;
+        SnackbarUi.success("Client ajouté avec succès");
+
+        //
+        Get.offAllNamed(AppPages.initial);
+
+        //Get.offAllNamed(AppRoutes.REGISTER_OTP, arguments:loginResponse.email);
+
+      } else {
+        SnackbarUi.error(response.data.toString());
+        isLoading.value = false;
+      }
+
+      isLoading.value = false;
+
+    } else {
+      SnackbarUi.error("Veuillez renseigner correctement le formulaire");
+      isLoading.value = false;
+    }
+
+  }
+
+
+  Future<void> saveCommande() async {
+
+    formKey.currentState!.save();
+
+    if (formKey.currentState!.validate()) {
+      isLoading.value = true;
+      //SnackbarUi.info(formKey.currentState!.value);
+      print(formKey.currentState!.value);
+
+      var data = Map<String, dynamic>.from(formKey.currentState!.value);
+
+      //data['cni'] = await dio.MultipartFile.fromFile(document_path_cni, filename: 'cni');
+
+      var formData = dio.FormData.fromMap(data);
+
+      dio.Response response = await this.registerRepo.saveCommande(data: formData);
+
+      print(response.data.toString());
+
+      if (response.statusCode == 200) {
+
+        //RegisterResponse registerResponse = RegisterResponse.fromJson(response.data);
+        //this.registerRepo.sessionDataSave(registerResponse);user123
+
+        //le connecter en même temps
+        //LoginResponse loginResponse = LoginResponse.fromJson(response.data);
+        //this.authRepo.sessionTokenDataSave(loginResponse);
+        //isLoading.value = true;
+        SnackbarUi.success("Commande ajouté avec succès");
+
+        //
+        Get.offAllNamed(AppPages.initial);
+
+        //Get.offAllNamed(AppRoutes.REGISTER_OTP, arguments:loginResponse.email);
+
+      } else {
+        SnackbarUi.error(response.data.toString());
+        isLoading.value = false;
+      }
+
+      isLoading.value = false;
+
+    } else {
+      SnackbarUi.error("Veuillez renseigner correctement le formulaire");
+      isLoading.value = false;
+    }
+
+  }
+
 
 }

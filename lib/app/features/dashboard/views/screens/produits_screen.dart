@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 
 import '../../../../constans/app_constants.dart';
+import '../../../../shared_components/form_add_produit.dart';
 import '../../../../shared_components/header_text.dart';
 import '../../controllers/home_controller.dart';
 import '../components/ligne_horizontal.dart';
 import '../components/liste_produits.dart';
-import '../components/liste_clients.dart';
 
 class ProduitsScreen extends GetView<HomeController> {
   const ProduitsScreen({Key? key}) : super(key: key);
@@ -19,11 +19,12 @@ class ProduitsScreen extends GetView<HomeController> {
         controller: ScrollController(),
         child: _buildContent(
           onPressedMenu: () => controller.openDrawer(),
+          context: context
         )
     );
   }
 
-  Widget _buildContent({Function()? onPressedMenu}) {
+  Widget _buildContent({Function()? onPressedMenu, required BuildContext context}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: kSpacing),
       child: Column(
@@ -47,7 +48,18 @@ class ProduitsScreen extends GetView<HomeController> {
                   EvaIcons.plus,
                   size: 16,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  showModalBottomSheet(
+                      backgroundColor: Colors.transparent,
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (context) {
+
+                        return FormAddProduit();
+
+                      }
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),

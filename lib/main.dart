@@ -1,11 +1,18 @@
 import 'dart:ui';
 
+import 'package:get_storage/get_storage.dart';
+
 import 'app/config/routes/app_pages.dart';
 import 'app/config/themes/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'app/data/services/dependency_injection.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
+  DependecyInjection.init();
+
   runApp(const MyApp());
 }
 

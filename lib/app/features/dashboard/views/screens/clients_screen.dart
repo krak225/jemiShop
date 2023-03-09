@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 
 import '../../../../constans/app_constants.dart';
+import '../../../../shared_components/form_add_client.dart';
 import '../../../../shared_components/header_text.dart';
 import '../../controllers/home_controller.dart';
 import '../components/ligne_horizontal.dart';
@@ -18,11 +19,12 @@ class ClientsScreen extends GetView<HomeController> {
         controller: ScrollController(),
         child: _buildClientsContent(
           onPressedMenu: () => controller.openDrawer(),
+          context: context
         )
     );
   }
 
-  Widget _buildClientsContent({Function()? onPressedMenu}) {
+  Widget _buildClientsContent({Function()? onPressedMenu, required BuildContext context}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: kSpacing),
       child: Column(
@@ -46,7 +48,31 @@ class ClientsScreen extends GetView<HomeController> {
                   EvaIcons.plus,
                   size: 16,
                 ),
-                onPressed: () {},
+                onPressed: () {
+
+                  showModalBottomSheet(
+                      backgroundColor: Colors.transparent,
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (context) {
+
+                        return FormAddClientBottomSheet();
+
+                      }
+                  );
+
+                  /*
+                  showDialog(
+                      context: context,
+                      builder: (BuildContext context){
+                        return Dialog(
+                          shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(20.0)), //this right here
+                          child: FormAddClientBottomSheet(),
+                        );
+                      }
+                  );*/
+
+                },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
