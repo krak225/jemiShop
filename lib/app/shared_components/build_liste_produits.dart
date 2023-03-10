@@ -1,11 +1,8 @@
 import 'package:daily_task/app/constans/app_constants.dart';
-import 'package:daily_task/app/utils/helpers/app_helpers.dart';
-import 'package:dotted_border/dotted_border.dart';
-import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 import '../features/dashboard/model/produit.dart';
+import '../utils/stdfn.dart';
 
 class BuildListProduits extends StatelessWidget {
   const BuildListProduits({
@@ -60,7 +57,7 @@ class BuildListProduits extends StatelessWidget {
 
   Widget _buildSubtitle() {
     return Text(
-      produit.categorie + " - en print('');: " + produit.quantite_restante.toString(),
+      produit.categorie + " - en stock: " + produit.quantite_restante.toString(),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
     );
@@ -69,17 +66,23 @@ class BuildListProduits extends StatelessWidget {
   Widget _buildAssign() {
     return Tooltip(
               message: produit.prix.toString(),
-              child: CircleAvatar(
-                radius: 22,
-                backgroundColor: Colors.orange.withOpacity(.1),
-                child: Text(
-                  produit.prix.toString().toUpperCase(),
-                  style: const TextStyle(
-                    color: Colors.orange,
-                    fontWeight: FontWeight.bold,
-                  ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                child: Container(
+                    //width: 50.0,
+                    padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+                    color: Colors.orange.withOpacity(.7),
+                    child:Text(
+                      Stdfn.toAmount(produit.prix),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.right,
+                    ),
                 ),
-              ),
+              )
           );
+
   }
 }

@@ -11,6 +11,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:intl/intl.dart';
 
 import '../../../config/routes/app_pages.dart';
 import '../../../constans/app_constants.dart';
@@ -236,45 +237,7 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
     }
   }
 
-  @override
-  void onInit() {
-    //_ColorAnimationController = AnimationController(vsync: this, duration: Duration(seconds: 0));
-
-    //_colorTween = ColorTween(begin: Colors.transparent, end: Colors.white)
-    //    .animate(_ColorAnimationController);
-
-    /*
-    _iconTween =
-        ColorTween(begin: Colors.white, end: Colors.lightBlue.withOpacity(0.5))
-            .animate(_ColorAnimationController);
-    _drawerTween = ColorTween(begin: Colors.white, end: Colors.black)
-        .animate(_ColorAnimationController);
-    _homeTween = ColorTween(begin: Colors.white, end: Colors.blue)
-        .animate(_ColorAnimationController);
-    _workOutTween = ColorTween(begin: Colors.white, end: Colors.black)
-        .animate(_ColorAnimationController);
-    _TextAnimationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 0));
-
-     */
-
-    super.onInit();
-
-  }
-
-
-
-  String path =  '';
-  //final picker = ImagePicker();
-
-  Future<void> pickPhotoProduit(int i) async {
-    if(i == 1) {
-      has_photo1.value = true;
-    }else if(i == 2) {
-      has_photo2.value = true;
-    }else if(i == 3) {
-      has_photo3.value = true;
-    }
+  Future<void> pickPhotosProduit() async {
 
     is_file_picked = false.obs;
 
@@ -283,7 +246,7 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
       type: FileType.image,
       //allowedExtensions: ['jpg', 'png', 'doc'],
     );
-    print(pickedFiles?.paths.toString());
+
     if(pickedFiles != null) {
 
       for (var path in pickedFiles.paths) {
@@ -306,14 +269,14 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
 
     if (formKey.currentState!.validate()) {
       isLoading.value = true;
-      //SnackbarUi.info(formKey.currentState!.value);
       print(formKey.currentState!.value);
 
       var data = Map<String, dynamic>.from(formKey.currentState!.value);
 
       int i = 0;
       for (var ph in photos) {
-        data['ph'+i.toString()] = await dio.MultipartFile.fromFile(ph.path, filename: 'photo');
+        var filename = 'photo_'+i.toString();
+        data[filename] = await dio.MultipartFile.fromFile(ph.path, filename: filename);
         i++;
       }
 
@@ -321,23 +284,19 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
 
       dio.Response response = await this.registerRepo.saveProduit(data: formData);
 
-      print(response.data.toString());
-
       if (response.statusCode == 200) {
         isLoading.value = false;
-        //RegisterResponse registerResponse = RegisterResponse.fromJson(response.data);
-        //this.registerRepo.sessionDataSave(registerResponse);user123
-
-        //le connecter en même temps
-        //LoginResponse loginResponse = LoginResponse.fromJson(response.data);
-        //this.authRepo.sessionTokenDataSave(loginResponse);
-        //isLoading.value = true;
-        SnackbarUi.success("Produit ajouté avec succès");
 
         //
+        //photos.clear();
+
+        SnackbarUi.success("Produit ajouté avec succès");
+
         Get.offAllNamed(AppPages.initial);
 
       } else {
+        print(response.data);
+
         SnackbarUi.error(response.data.toString());
         isLoading.value = false;
       }
@@ -449,6 +408,7 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
     }
 
   }
+
 
 
 }

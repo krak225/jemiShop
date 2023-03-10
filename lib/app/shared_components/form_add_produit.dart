@@ -10,6 +10,8 @@ import 'package:get/get.dart';
 
 import '../utils/ui/theme/custom_input_decoration.dart';
 import '../utils/ui/theme/light_color.dart';
+import '../utils/ui/theme/themes.dart';
+import '../utils/validator_state.dart';
 
 class FormAddProduit extends StatelessWidget {
   final DashboardController controller = Get.find();
@@ -26,7 +28,6 @@ class FormAddProduit extends StatelessWidget {
             color: Colors.white,
             child: Column(
             children: [
-              //Text(""),
               Container(
                 decoration: BoxDecoration(
                     image: DecorationImage(
@@ -38,19 +39,19 @@ class FormAddProduit extends StatelessWidget {
                 ),
                 child: Container(
                   width: double.infinity,
-                  height: 100,
+                  height: 50,
                   child: Container(
-                    alignment: Alignment(0.0,2.5),
+                    alignment: Alignment(0.0, 10),
                     child: CircleAvatar(
                       backgroundColor: Colors.white,
-                      radius: 65.0,
+                      radius: 24.0,
                       child: Icon(
                         Icons.add_shopping_cart,
                         color: Colors.teal,
-                        size: 56.0,
+                        size:24.0,
                       ),
                     ),
-                  ),
+                  )
                 ),
               ),
               SingleChildScrollView(
@@ -65,8 +66,8 @@ class FormAddProduit extends StatelessWidget {
                   AutoSizeText(
                     "Création d'un produit",
                     style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
                     ),
                     maxLines: 1,
                   ),
@@ -82,8 +83,8 @@ class FormAddProduit extends StatelessWidget {
                   FadeInRight(
                     child: FormBuilderTextField(
                       name: 'nom',
-                      initialValue: '',
-                      // validator: ValidatorState.email,
+                      initialValue: 'TEST PRODUIT',
+                      validator: ValidatorState.required,
                       decoration: CustomInputDecoration.style1(labelText: 'Nom du prduit'),
                     ),
                   ),
@@ -91,15 +92,17 @@ class FormAddProduit extends StatelessWidget {
                   FadeInRight(
                     child: FormBuilderTextField(
                       name: 'prix',
-                      initialValue: '',
-                      //validator: FormBuilderValidators.numeric(),
+                      initialValue: '1000',
+                      validator: ValidatorState.required,
                       decoration: CustomInputDecoration.style1(labelText: 'Prix'),
+                      keyboardType: TextInputType.number,
                     ),
                   ),
                   SizedBox(height: Get.height * 0.02),
                   FadeInRight(
                     child: FormBuilderDropdown(
                       name: 'categorie',
+                      validator: ValidatorState.required,
                       decoration: CustomInputDecoration.style1(labelText: 'Catégorie'),
                       items: [
                         DropdownMenuItem(
@@ -110,6 +113,10 @@ class FormAddProduit extends StatelessWidget {
                           child: Text('Huile capillaire'),
                           value: '2',
                         ),
+                        DropdownMenuItem(
+                          child: Text('Divers'),
+                          value: '3',
+                        ),
                       ],
                     ),
                   ),
@@ -117,9 +124,9 @@ class FormAddProduit extends StatelessWidget {
                   FadeInRight(
                     child: FormBuilderTextField(
                       name: 'stock',
-                      initialValue: '',
-                      decoration:
-                      CustomInputDecoration.style1(labelText: 'Stock disponible'),
+                      initialValue: '10',
+                      decoration: CustomInputDecoration.style1(labelText: 'Stock disponible'),
+                      keyboardType: TextInputType.number,
                     ),
                   ),
                   SizedBox(height: Get.height * 0.02),
@@ -132,7 +139,11 @@ class FormAddProduit extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: Get.height * 0.02),
-                  Text("Joindres des photos"),
+                  FadeInRight(child:Text("Joindres des photos",
+                      style: Themes.globalFont(style: TextStyle(color: LightColor.black, fontSize: 12)),
+                      textAlign: TextAlign.left,
+                    )
+                  ),
                   FadeInRight(
                     child: Container(
                         decoration: BoxDecoration(
@@ -163,7 +174,7 @@ class FormAddProduit extends StatelessWidget {
                                 ).toList()
                             ),
                             InkWell(
-                              onTap: () => controller.pickPhotoProduit(0),
+                              onTap: () => controller.pickPhotosProduit(),
                               child: Card(
                                   child: Container(width: 50, height: 50, child: Icon(EvaIcons.imageOutline, color: Colors.blueGrey,))
                               ),
