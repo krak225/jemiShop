@@ -222,9 +222,11 @@ class HomeController extends GetxController {
 
     if (response.statusCode == 200) {
 
-      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+      //final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+      //return parsed.map<Produit>((json) => Produit.fromMap(json)).toList();
 
-      return parsed.map<Produit>((json) => Produit.fromMap(json)).toList();
+      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+      return parsed.map<Produit>((json) => Produit.fromJson(json)).toList();
 
     } else {
 

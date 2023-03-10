@@ -42,13 +42,13 @@ class BuildListProduits extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         color: Colors.blueGrey.withOpacity(.1),
       ),
-      child: Image.network(produit.photo, fit: BoxFit.contain)//data.icon,
+      child: Image.network(produit.produitPhotoPrincipale!, fit: BoxFit.contain)//data.icon,
     );
   }
 
   Widget _buildTitle() {
     return Text(
-      produit.nom,
+      produit.produitNom!,
       style: const TextStyle(fontWeight: FontWeight.bold),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
@@ -57,7 +57,7 @@ class BuildListProduits extends StatelessWidget {
 
   Widget _buildSubtitle() {
     return Text(
-      produit.categorie + " - en stock: " + produit.quantite_restante.toString(),
+      produit.categorieNom! + " - en stock: " + produit.produitQuantiteRestante.toString(),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
     );
@@ -65,7 +65,7 @@ class BuildListProduits extends StatelessWidget {
 
   Widget _buildAssign() {
     return Tooltip(
-              message: produit.prix.toString(),
+              message: produit.produitPrix.toString(),
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(4.0)),
                 child: Container(
@@ -73,7 +73,7 @@ class BuildListProduits extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
                     color: Colors.orange.withOpacity(.7),
                     child:Text(
-                      Stdfn.toAmount(produit.prix),
+                      Stdfn.toAmount(produit.produitPrix!),
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

@@ -280,7 +280,7 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
         isLoading.value = false;
 
         //
-        //photos.clear();
+        photos.clear();
 
         SnackbarUi.success("Produit ajouté avec succès");
 
@@ -299,6 +299,10 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
       SnackbarUi.error("Veuillez renseigner correctement le formulaire");
       isLoading.value = false;
     }
+
+  }
+
+  Future<void> updateProduit(int id) async {
 
   }
 

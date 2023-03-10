@@ -83,7 +83,7 @@ class FormAddProduit extends StatelessWidget {
                   FadeInRight(
                     child: FormBuilderTextField(
                       name: 'nom',
-                      initialValue: 'TEST PRODUIT',
+                      initialValue: '',
                       validator: ValidatorState.required,
                       decoration: CustomInputDecoration.style1(labelText: 'Nom du prduit'),
                     ),
@@ -92,7 +92,7 @@ class FormAddProduit extends StatelessWidget {
                   FadeInRight(
                     child: FormBuilderTextField(
                       name: 'prix',
-                      initialValue: '1000',
+                      initialValue: '',
                       validator: ValidatorState.required,
                       decoration: CustomInputDecoration.style1(labelText: 'Prix'),
                       keyboardType: TextInputType.number,
@@ -157,9 +157,12 @@ class FormAddProduit extends StatelessWidget {
                             )
                           ],
                         ),
-                        child: Obx(()=>Row(
+                        child: Obx(()=>SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
                           children: [
                             Row(
+                                //scrollDirection: Axis.horizontal,
                                 children:controller.photos.map((photo) =>FadeInRight(
                                   child: GestureDetector(
                                     onLongPress: () =>
@@ -224,11 +227,12 @@ class FormAddProduit extends StatelessWidget {
                                         ),
                                       ),*/
                                       width: 50, height: 50,
-                                      child: Icon(EvaIcons.imageOutline, color: Colors.blueGrey,)
+                                      child: Icon(EvaIcons.attach, color: Colors.blueGrey,)
                                   )
                               ),
                             ),
                           ]
+                          ),
                         ),
                       ),
                     ),
