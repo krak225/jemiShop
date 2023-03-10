@@ -16,7 +16,7 @@ import '../utils/validator_state.dart';
 class FormAddProduit extends StatelessWidget {
   final DashboardController controller = Get.find();
 
-  FormAddProduit();
+  FormAddProduit({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -160,15 +160,55 @@ class FormAddProduit extends StatelessWidget {
                         child: Obx(()=>Row(
                           children: [
                             Row(
-                                children:controller.photos.map((photo) => FadeInRight(
-                                  child: Card(
-                                      child: Container(width: 50, height: 50,
-                                          decoration: BoxDecoration(
-                                            image: DecorationImage(
-                                                image: Image.file(File(photo.path)).image,
-                                                fit: BoxFit.cover),
+                                children:controller.photos.map((photo) =>FadeInRight(
+                                  child: GestureDetector(
+                                    onLongPress: () =>
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                        return Dialog(
+                                        shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20.0)), //this right here
+                                        child: Container(
+                                          height: 280,
+                                          width: 170,
+                                          child: Column(
+                                            children: [
+                                            Container(padding: EdgeInsets.only(top: 10), child: Text("Aperçu de la photo", style: TextStyle(fontSize: 14, color: Colors.primaries.last))),
+                                            Divider(color: Colors.grey[200]),
+                                            Container(width: 170, height: 170,
+                                              decoration: BoxDecoration(
+                                                image: DecorationImage(
+                                                    image: Image.file(File(photo.file.path)).image,
+                                                    fit: BoxFit.cover),
+                                              ),
+                                            ),
+                                            Divider(color: Colors.grey[200]),
+                                            Row(
+                                              children: [
+                                                const BackButton(),
+                                                const Expanded(child: Center()),
+                                                IconButton(
+                                                  icon: const Icon(Icons.delete, color: Colors.red),
+                                                  tooltip: 'Supprimer',
+                                                  onPressed: () => controller.deletePhoto(photo.uiid),
+                                                ),
+                                              ],
+                                            ),
+
+                                          ])
                                           )
-                                      )
+                                        );
+                                      }),
+                                    child: Card(
+                                        child: Container(width: 50, height: 50,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: Image.file(File(photo.file.path)).image,
+                                                  fit: BoxFit.cover),
+                                            )
+                                        )
+                                    ),
                                   ),
                                 )
                                 ).toList()
@@ -176,7 +216,16 @@ class FormAddProduit extends StatelessWidget {
                             InkWell(
                               onTap: () => controller.pickPhotosProduit(),
                               child: Card(
-                                  child: Container(width: 50, height: 50, child: Icon(EvaIcons.imageOutline, color: Colors.blueGrey,))
+                                  child: Container(
+                                      /*decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: IconImageProvider(EvaIcons.imageOutline),
+                                            fit: BoxFit.cover
+                                        ),
+                                      ),*/
+                                      width: 50, height: 50,
+                                      child: Icon(EvaIcons.imageOutline, color: Colors.blueGrey,)
+                                  )
                               ),
                             ),
                           ]
@@ -220,4 +269,46 @@ class FormAddProduit extends StatelessWidget {
     );
 
   }
+
+  void _showContextMenu(BuildContext context, PhotoTemporaire photo) async {
+    final result = await showMenu(
+        context: context,
+        position: RelativeRect.fromLTRB(0,Get.height/1.7, 0, 0),
+        items: [
+          PopupMenuItem(
+            padding: EdgeInsets.all(0),
+            value: 1,
+            child:
+            Column(
+              children: [
+                Text("Aperçu de la photo", style: TextStyle(fontSize: 12),),
+                //LigneHorizontale(data: LigneHorizontaleData(totalTask:0, totalCompleted: 0, title: "")),
+                Divider(color: Colors.grey[200]),
+                Container(width: 100, height: 100,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: Image.file(File(photo.file.path)).image,
+                        fit: BoxFit.cover),
+                  ),
+                ),
+                Divider(color: Colors.grey[200]),
+                Row(
+                  children: [
+                    const Expanded(child: Center()),
+                    Center(
+                      child:InkWell(
+                        onTap: () => controller.deletePhoto(photo.uiid),
+                        child: Icon(Icons.delete, color: Colors.red, size:18)
+                      ),
+                    ),
+                  ],
+                )
+
+              ]
+            ),
+          )
+        ]
+    );
+  }
+
 }

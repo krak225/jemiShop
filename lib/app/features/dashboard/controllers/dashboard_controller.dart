@@ -12,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../config/routes/app_pages.dart';
 import '../../../constans/app_constants.dart';
@@ -29,16 +30,21 @@ import '../views/screens/home_screen.dart';
 import '../views/screens/messages_screen.dart';
 import '../views/screens/produits_screen.dart';
 
+class PhotoTemporaire {
+  String uiid;
+  File file;
+
+  PhotoTemporaire({
+    required this.uiid,
+    required this.file,
+  });
+}
+
 class DashboardController extends GetxController with GetSingleTickerProviderStateMixin {
   late Io.File file_picked;
   RxBool is_file_picked = false.obs;
-  final RxList<File> photos = <File>[].obs;
+  final RxList<PhotoTemporaire> photos = <PhotoTemporaire>[].obs;
 
-
-  //
-  final RxBool isHide = false.obs;
-  final RxBool isHide2 = false.obs;
-  //final AuthRepo authRepo = Get.find();
   final RegisterRepo registerRepo = Get.find();
   final RxBool isLoading = false.obs;
   final GetStorage _storage = GetStorage();
@@ -46,21 +52,8 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
 
   final scafoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
-  // ignore: non_constant_identifier_names
-  late AnimationController _ColorAnimationController;
-
-  // ignore: non_constant_identifier_names
-  late AnimationController _TextAnimationController;
-  late Animation _colorTween, _homeTween, _workOutTween, _iconTween, _drawerTween;
 
   DashboardController();
-
-  get ColorAnimationController => _ColorAnimationController;
-  //get colorTween => _colorTween;
-  //get homeTween => _homeTween;
-  //get workOutTween => _workOutTween;
-  //get iconTween => _iconTween;
-  //get drawerTween => _drawerTween;
 
   bool scrollListener(ScrollNotification scrollInfo) {
     bool scroll = false;
@@ -68,9 +61,6 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
     print(scrollInfo.metrics.pixels);
 
     if (scrollInfo.metrics.axis == Axis.vertical) {
-      //_ColorAnimationController.animateTo(scrollInfo.metrics.pixels / 80);
-
-      //_TextAnimationController.animateTo(scrollInfo.metrics.pixels);
       return scroll = true;
     }
 
@@ -250,8 +240,10 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
     if(pickedFiles != null) {
 
       for (var path in pickedFiles.paths) {
+        var uiid = Uuid().v4();
         file_picked = Io.File(path!);
-        photos.add(file_picked);
+
+        photos.add(new PhotoTemporaire(uiid: uiid, file:file_picked));
       }
 
       print(photos);
@@ -276,7 +268,7 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
       int i = 0;
       for (var ph in photos) {
         var filename = 'photo_'+i.toString();
-        data[filename] = await dio.MultipartFile.fromFile(ph.path, filename: filename);
+        data[filename] = await dio.MultipartFile.fromFile(ph.file.path, filename: filename);
         i++;
       }
 
@@ -321,8 +313,6 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
 
       var data = Map<String, dynamic>.from(formKey.currentState!.value);
 
-      //data['cni'] = await dio.MultipartFile.fromFile(document_path_cni, filename: 'cni');
-
       var formData = dio.FormData.fromMap(data);
 
       dio.Response response = await this.registerRepo.saveClient(data: formData);
@@ -331,19 +321,10 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
 
       if (response.statusCode == 200) {
         isLoading.value = false;
-        //RegisterResponse registerResponse = RegisterResponse.fromJson(response.data);
-        //this.registerRepo.sessionDataSave(registerResponse);user123
-
-        //le connecter en même temps
-        //LoginResponse loginResponse = LoginResponse.fromJson(response.data);
-        //this.authRepo.sessionTokenDataSave(loginResponse);
-        //isLoading.value = true;
         SnackbarUi.success("Client ajouté avec succès");
 
         //
         Get.offAllNamed(AppPages.initial);
-
-        //Get.offAllNamed(AppRoutes.REGISTER_OTP, arguments:loginResponse.email);
 
       } else {
         SnackbarUi.error(response.data.toString());
@@ -366,12 +347,9 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
 
     if (formKey.currentState!.validate()) {
       isLoading.value = true;
-      //SnackbarUi.info(formKey.currentState!.value);
       print(formKey.currentState!.value);
 
       var data = Map<String, dynamic>.from(formKey.currentState!.value);
-
-      //data['cni'] = await dio.MultipartFile.fromFile(document_path_cni, filename: 'cni');
 
       var formData = dio.FormData.fromMap(data);
 
@@ -381,19 +359,10 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
 
       if (response.statusCode == 200) {
         isLoading.value = false;
-        //RegisterResponse registerResponse = RegisterResponse.fromJson(response.data);
-        //this.registerRepo.sessionDataSave(registerResponse);user123
-
-        //le connecter en même temps
-        //LoginResponse loginResponse = LoginResponse.fromJson(response.data);
-        //this.authRepo.sessionTokenDataSave(loginResponse);
-        //isLoading.value = true;
         SnackbarUi.success("Commande ajouté avec succès");
 
         //
         Get.offAllNamed(AppPages.initial);
-
-        //Get.offAllNamed(AppRoutes.REGISTER_OTP, arguments:loginResponse.email);
 
       } else {
         SnackbarUi.error(response.data.toString());
@@ -407,6 +376,11 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
       isLoading.value = false;
     }
 
+  }
+
+  deletePhoto(var index) {
+    photos.removeWhere((photo) => photo.uiid == index);
+    Get.back();
   }
 
 

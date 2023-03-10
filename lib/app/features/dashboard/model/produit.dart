@@ -22,15 +22,15 @@ class Produit{
   });
 
   factory Produit.fromMap(Map<String, dynamic> json) => Produit(
-    id: json["id"],
-    nom: json["nom"],
-    photo: json["photo"],
-    categorie: json["categorie"],
-    prix: int.parse(json["prix"]),
-    quantite_total: int.parse(json["quantite_total"]),
-    quantite_achete: int.parse(json["quantite_achete"]),
-    quantite_restante: int.parse(json["quantite_restante"]),
-    date_creation: json["date_creation"],
+    id: json["produit_id"],
+    nom: json["produit_nom"],
+    photo: json["produit_photo_principale"],
+    categorie: json["categorie_nom"],
+    prix: int.parse(json["produit_prix"]),
+    quantite_total: int.parse(json["produit_quantite_total"]),
+    quantite_achete: int.parse(json["produit_quantite_achete"]),
+    quantite_restante: int.parse(json["produit_quantite_restante"]),
+    date_creation: json["produit_date_creation"],
   );
 
 }
