@@ -45,7 +45,15 @@ class BuildListClients extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         color: Colors.blueGrey.withOpacity(.1),
       ),
-      child: Icon(Icons.person)//data.icon,
+      child: FadeInImage(
+        fadeInDuration: const Duration(milliseconds: 1),
+        image:NetworkImage(client.photo),
+        placeholder: const AssetImage('assets/icons/user_.png'),
+        imageErrorBuilder:(context, error, stackTrace) {
+          return Icon(EvaIcons.person);
+        },
+        fit: BoxFit.contain,
+      ),
     );
   }
 

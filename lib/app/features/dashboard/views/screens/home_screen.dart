@@ -1,3 +1,4 @@
+import 'package:daily_task/app/features/dashboard/views/components/liste_produits.dart';
 import 'package:daily_task/app/utils/helpers/app_helpers.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
@@ -88,7 +89,14 @@ class HomeScreen extends GetView<HomeController> {
             onPressed: controller.onPressedTask,
             onPressedAssign: controller.onPressedAssignTask,
             onPressedMember: controller.onPressedMemberTask,
-          )
+          ),
+          /*ListeProduits(
+            data: controller.fetchProduits(),
+            onPressed: controller.onPressedTask,
+            onPressedAssign: controller.onPressedAssignTask,
+            onPressedMember: controller.onPressedMemberTask,
+          ),*/
+
         ],
       ),
     );

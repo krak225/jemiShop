@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:daily_task/app/features/dashboard/controllers/dashboard_controller.dart';
@@ -9,6 +11,7 @@ import 'package:get/get.dart';
 import '../features/dashboard/views/components/ligne_horizontal.dart';
 import '../utils/ui/theme/custom_input_decoration.dart';
 import '../utils/ui/theme/light_color.dart';
+import '../utils/ui/theme/themes.dart';
 import '../utils/validator_state.dart';
 
 class FormAddClientBottomSheet extends StatelessWidget {
@@ -101,6 +104,7 @@ class FormAddClientBottomSheet extends StatelessWidget {
                     child: FormBuilderTextField(
                       name: 'telephone',
                       initialValue: '',
+                      keyboardType: TextInputType.number,
                       // validator: ValidatorState.email,
                       decoration:
                       CustomInputDecoration.style1(labelText: 'Téléphone'),
@@ -111,9 +115,8 @@ class FormAddClientBottomSheet extends StatelessWidget {
                     child: FormBuilderTextField(
                       name: 'email',
                       initialValue: '',
-                      // validator: ValidatorState.email,
-                      decoration:
-                      CustomInputDecoration.style1(labelText: 'Email'),
+                      validator: ValidatorState.email,
+                      decoration: CustomInputDecoration.style1(labelText: 'Email'),
                     ),
                   ),
                   SizedBox(height: Get.height * 0.02),
@@ -125,92 +128,77 @@ class FormAddClientBottomSheet extends StatelessWidget {
                       decoration: CustomInputDecoration.style1(labelText: 'Adresse de livraison'),
                     ),
                   ),
-                  /*
                   SizedBox(height: Get.height * 0.02),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: FadeInRight(
-                          child: FormBuilderDropdown(
-                            name: 'sexe',
-                            validator: ValidatorState.required,
-                            decoration: CustomInputDecoration.style2(labelText: 'Sexe'),
-                            items: [
-                              DropdownMenuItem(
-                                child: Text('Femme'),
-                                value: '2',
-                              ),
-                              DropdownMenuItem(
-                                child: Text('Homme'),
-                                value: '3',
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                  width: 20,
+                  FadeInRight(child:Text("Photo",
+                      style: Themes.globalFont(style: TextStyle(color: LightColor.black, fontSize: 12)),
+                      textAlign: TextAlign.left,
+                    )
                   ),
-                  Expanded(
-                    child: FadeInRight(
-                      child: FormBuilderTextField(
-                        name: 'experience',
-                        initialValue: '',
-                        // validator: ValidatorState.email,
-                        decoration: CustomInputDecoration.style1(
-                        labelText: "Année d'expérience"),
-                      ),
-                    ),
-                  ),
-                    ],
-                  ),*/
-                  /*SizedBox(height: Get.height * 0.02),
+
                   FadeInRight(
-                    delay: Duration(milliseconds: 300),
-                    child: FormBuilderTextField(
-                      name: 'password',
-                      initialValue: '',
-                      obscureText: controller.isHide.value,
-                      validator: ValidatorState.required,
-                      decoration: CustomInputDecoration.style1(
-                        labelText: 'Mot de passe',
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            Icons.remove_red_eye_outlined,
-                            color: Colors.black,
-                          ),
-                          onPressed: () {
-                            controller.isHide.value = !controller.isHide.value;
-                          },
+                    child: Obx(()=>controller.photos.value.length > 0 ? Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(3),
+                          boxShadow: [
+                            BoxShadow(
+                              color: LightColor.lightGrey2,
+                              blurRadius: 2,
+                              offset: Offset(0, 2),
+                            )
+                          ],
+                        ),
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                          children: [
+                            Row(
+                                children:controller.photos.map((photo) =>FadeInRight(
+                                  child: InkWell(
+                                    onTap: () => controller.pickPhotoClient(),
+                                    child: Card(
+                                      child: Container(width: 50, height: 50,
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                              image: Image.file(File(photo.file.path)).image,
+                                              fit: BoxFit.cover),
+                                        )
+                                      )
+                                    ),
+                                  ),
+                                )
+                              ).toList()
+                            )
+                          ]),
+                        ),
+                    ) :
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(3),
+                        boxShadow: [
+                        BoxShadow(
+                          color: LightColor.lightGrey2,
+                          blurRadius: 2,
+                          offset: Offset(0, 2),
                         )
+                        ],
+                      ),
+                      child: InkWell(
+                          onTap: () => controller.pickPhotoClient(),
+                          child: Card(
+                          child: Container(
+                            width: 50, height: 50,
+                            child: Icon(EvaIcons.person, color: Colors.blueGrey,)
+                          )
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: Get.height * 0.02),
-                  FadeInRight(
-                    delay: Duration(milliseconds: 300),
-                    child: FormBuilderTextField(
-                      name: 'password_confirmation',
-                      initialValue: '',
-                      obscureText: controller.isHide.value,
-                      validator: ValidatorState.required,
-                      decoration: CustomInputDecoration.style1(
-                      labelText: 'Confirmez le mot de passe',
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          Icons.remove_red_eye_outlined,
-                          color: Colors.black,
-                        ),
-                        onPressed: () {
-                          controller.isHide2.value =!controller.isHide2.value;
-                        },
-                      )),
                     ),
-                  ),*/
-                  SizedBox(height: Get.height * 0.02),
+                  ),
                 ]),
                 ),
-                SizedBox(height: Get.height * 0.04),
+                SizedBox(height: Get.height * 0.02),
                 FadeInRight(
                   duration: Duration(milliseconds: 600),
                   child:
@@ -228,7 +216,7 @@ class FormAddClientBottomSheet extends StatelessWidget {
                         ),
                       )
                           : const Icon(Icons.check),
-                      label: const Text('ENREGISTRER LE CLIENT'),
+                      label: const Text('VALIDER'),
                     ),
                   ),
                 ),

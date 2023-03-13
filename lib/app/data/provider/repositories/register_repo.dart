@@ -27,6 +27,12 @@ class RegisterRepo {
   Future<Response> saveProduit({required dynamic data}) async {
     return await dioService.postData('/produit', data: data);
   }
+  Future<Response> updateProduit({required dynamic data}) async {
+    return await dioService.postData('/update_produit', data: data);
+  }
+  Future<Response> deletePhoto({required dynamic data}) async {
+    return await dioService.postData('/delete_photo', data: data);
+  }
 
   Future<Response> saveClient({required dynamic data}) async {
     return await dioService.postData('/client', data: data);

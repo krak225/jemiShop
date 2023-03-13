@@ -44,6 +44,7 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
   late Io.File file_picked;
   RxBool is_file_picked = false.obs;
   final RxList<PhotoTemporaire> photos = <PhotoTemporaire>[].obs;
+  //final RxList<PhotoTemporaire> photos_clients = <PhotoTemporaire>[].obs;
 
   final RegisterRepo registerRepo = Get.find();
   final RxBool isLoading = false.obs;
@@ -52,6 +53,8 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
 
   final scafoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
+
+  RxBool is_photo_client_picked = false.obs;
 
   DashboardController();
 
@@ -108,7 +111,7 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
 
   //////////
   final dataProfil = const UserProfileData(
-    image: AssetImage(ImageRasterPath.man),
+    image: AssetImage(ImageIconsPath.user),
     name: "Jemima KOFFI",
     jobDesk: "Directrice Générale",
   );
@@ -254,6 +257,34 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
 
   }
 
+  Future<void> pickPhotoClient() async {
+
+    is_photo_client_picked = false.obs;
+
+    FilePickerResult? pickedFiles = await FilePicker.platform.pickFiles(
+      allowMultiple: true,
+      type: FileType.image,
+      //allowedExtensions: ['jpg', 'png', 'doc'],
+    );
+
+    if(pickedFiles != null) {
+
+      for (var path in pickedFiles.paths) {
+        var uiid = Uuid().v4();
+        file_picked = Io.File(path!);
+        photos.clear();
+        photos.add(new PhotoTemporaire(uiid: uiid, file:file_picked));
+      }
+
+      is_photo_client_picked = false.obs;
+
+    }else{
+      SnackbarUi.error("Erreur lors de la sélection du document");
+    }
+
+  }
+
+
 
   Future<void> saveProduit() async {
 
@@ -302,7 +333,51 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
 
   }
 
-  Future<void> updateProduit(int id) async {
+  Future<void> updateProduit(int produit_id) async {
+
+    formKey.currentState!.save();
+
+    if (formKey.currentState!.validate()) {
+      isLoading.value = true;
+      print(formKey.currentState!.value);
+
+      var data = Map<String, dynamic>.from(formKey.currentState!.value);
+      data['produit_id'] = produit_id;
+
+      int i = 0;
+      for (var ph in photos) {
+        var filename = 'photo_'+i.toString();
+        data[filename] = await dio.MultipartFile.fromFile(ph.file.path, filename: filename);
+        i++;
+      }
+
+      var formData = dio.FormData.fromMap(data);
+
+      dio.Response response = await this.registerRepo.updateProduit(data: formData);
+
+      if (response.statusCode == 200) {
+        isLoading.value = false;
+
+        //
+        photos.clear();
+
+        SnackbarUi.success("Produit modifié avec succès");
+
+        Get.offAllNamed(AppPages.initial);
+
+      } else {
+        print(response.data);
+
+        SnackbarUi.error(response.data.toString());
+        isLoading.value = false;
+      }
+
+      isLoading.value = false;
+
+    } else {
+      SnackbarUi.error("Veuillez renseigner correctement le formulaire");
+      isLoading.value = false;
+    }
 
   }
 
@@ -316,6 +391,12 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
       print(formKey.currentState!.value);
 
       var data = Map<String, dynamic>.from(formKey.currentState!.value);
+
+      //
+      for (var ph in photos) {
+        var filename = 'client_photo';
+        data[filename] = await dio.MultipartFile.fromFile(ph.file.path, filename: filename);
+      }
 
       var formData = dio.FormData.fromMap(data);
 
@@ -387,6 +468,34 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
     Get.back();
   }
 
+
+  Future<void> deletePhotoOnServer(int photo_id) async {
+
+      var data = Map<String, dynamic>();
+      data['photo_id'] = photo_id;
+
+      var formData = dio.FormData.fromMap(data);
+
+      dio.Response response = await this.registerRepo.deletePhoto(data: formData);
+
+      if (response.statusCode == 200) {
+        isLoading.value = false;
+
+        //
+        photos.clear();
+
+        SnackbarUi.success("Photo supprimé avec succès");
+
+        Get.offAllNamed(AppPages.initial);
+
+      } else {
+        print(response.data);
+
+        SnackbarUi.error(response.data.toString());
+        isLoading.value = false;
+      }
+
+  }
 
 
 }

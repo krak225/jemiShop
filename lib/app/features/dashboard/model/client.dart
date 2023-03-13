@@ -3,28 +3,31 @@ class Client{
   final String nom;
   final String prenoms;
   final String email;
+  final String adresse;
   final String telephone;
   final String photo;
-  final String created_at;
+  final String date_creation;
 
   Client({
     required this.id,
     required this.nom,
     required this.prenoms,
-    required this.email,
-    required this.telephone,
     required this.photo,
-    required this.created_at,
+    required this.telephone,
+    required this.email,
+    required this.adresse,
+    required this.date_creation,
   });
 
   factory Client.fromMap(Map<String, dynamic> json) => Client(
-    id: json["id"],
-    nom: json["name"].toString(),
-    prenoms: json["prenoms"].toString(),
-    email: json["email"].toString(),
-    telephone: json["telephone"].toString(),
-    photo: json["photo"].toString(),
-    created_at: json["created_at"],
+    id: json["client_id"],
+    nom: json["client_nom"].toString(),
+    prenoms: json["client_prenoms"].toString(),
+    photo: json["client_photo"].toString(),
+    telephone: json["client_telephone"].toString(),
+    email: json["client_email"].toString(),
+    adresse: json["client_adresse"].toString(),
+    date_creation: json["client_date_creation"],
   );
 
 }

@@ -200,7 +200,7 @@ class DetailsProduit extends StatelessWidget {
                                                                     IconButton(
                                                                       icon: const Icon(Icons.delete, color: Colors.red),
                                                                       tooltip: 'Supprimer',
-                                                                      onPressed: () => controller.deletePhoto(photo.photoId),
+                                                                      onPressed: () => controller.deletePhotoOnServer(photo.photoId!),
                                                                     ),
                                                                   ],
                                                                 ),

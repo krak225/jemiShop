@@ -45,7 +45,7 @@ class UserDetailsBottomSheet extends StatelessWidget {
                       radius: 65.0,
                       child: CircleAvatar(
                         backgroundImage: NetworkImage(
-                            "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&q=80"
+                            client.photo
                         ),
                         radius: 60.0,
                       ),
