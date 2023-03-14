@@ -20,13 +20,15 @@ import '../../../shared_components/list_task_date.dart';
 import '../../../shared_components/selection_button.dart';
 import '../../../shared_components/task_progress.dart';
 import '../../../shared_components/user_profile.dart';
+import '../model/MyCommande.dart';
 import '../model/client.dart';
+import '../model/commande.dart';
 import '../model/produit.dart';
 
 class HomeController extends GetxController {
   final scafoldKey = GlobalKey<ScaffoldState>();
 
-  late List<Client> comments = List.empty();
+  late List<Client> clients = List.empty();
   late List<Produit> produits = List.empty();
 
   //////////
@@ -195,9 +197,9 @@ class HomeController extends GetxController {
 
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
-      comments = parsed.map<Client>((json) => Client.fromMap(json)).toList();
+      clients = parsed.map<Client>((json) => Client.fromMap(json)).toList();
 
-      return comments;
+      return clients;
 
     } else {
 
@@ -222,11 +224,39 @@ class HomeController extends GetxController {
 
     if (response.statusCode == 200) {
 
-      //final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
-      //return parsed.map<Produit>((json) => Produit.fromMap(json)).toList();
+      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+
+      produits = parsed.map<Produit>((json) => Produit.fromJson(json)).toList();
+
+      return produits;
+
+    } else {
+
+      print("response Body: " + response.body);
+
+      throw Exception('Failed to load clients');
+
+    }
+
+  }
+
+
+  Future<List<MyCommande>> fetchCommandes() async {
+
+    String url = "http://jobboard.target-ci.com/api/commandes";
+
+    final response = await http.get(Uri.parse(url), headers: {
+      //HttpHeaders.authorizationHeader: 'Bearer $TOKEN_STORAGE',
+      HttpHeaders.contentTypeHeader: 'application/json',
+    });
+
+    print(url);
+
+    if (response.statusCode == 200) {
 
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
-      return parsed.map<Produit>((json) => Produit.fromJson(json)).toList();
+
+      return parsed.map<MyCommande>((json) => MyCommande.fromJson(json)).toList();
 
     } else {
 

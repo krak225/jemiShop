@@ -86,7 +86,6 @@ class FormAddClientBottomSheet extends StatelessWidget {
                     child: FormBuilderTextField(
                       name: 'nom',
                       initialValue: '',
-                      // validator: ValidatorState.email,
                       decoration: CustomInputDecoration.style1(labelText: 'Nom'),
                     ),
                   ),
@@ -95,7 +94,6 @@ class FormAddClientBottomSheet extends StatelessWidget {
                     child: FormBuilderTextField(
                       name: 'prenoms',
                       initialValue: '',
-                      // validator: ValidatorState.email,
                       decoration: CustomInputDecoration.style1(labelText: 'Prenoms'),
                     ),
                   ),
@@ -105,7 +103,6 @@ class FormAddClientBottomSheet extends StatelessWidget {
                       name: 'telephone',
                       initialValue: '',
                       keyboardType: TextInputType.number,
-                      // validator: ValidatorState.email,
                       decoration:
                       CustomInputDecoration.style1(labelText: 'Téléphone'),
                     ),
@@ -115,7 +112,7 @@ class FormAddClientBottomSheet extends StatelessWidget {
                     child: FormBuilderTextField(
                       name: 'email',
                       initialValue: '',
-                      validator: ValidatorState.email,
+                      //validator: ValidatorState.email,
                       decoration: CustomInputDecoration.style1(labelText: 'Email'),
                     ),
                   ),

@@ -1,4 +1,5 @@
 import 'package:daily_task/app/constans/app_constants.dart';
+import 'package:daily_task/app/features/dashboard/model/MyCommande.dart';
 import 'package:daily_task/app/utils/helpers/app_helpers.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -6,9 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 import '../features/dashboard/model/client.dart';
+import '../utils/stdfn.dart';
 
-class BuildListClients extends StatelessWidget {
-  const BuildListClients({
+class BuildListCommandes extends StatelessWidget {
+  const BuildListCommandes({
     required this.client,
     required this.onPressed,
     required this.onPressedAssign,
@@ -16,7 +18,7 @@ class BuildListClients extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final Client client;
+  final MyCommande client;
   final Function() onPressed;
   final Function()? onPressedAssign;
   final Function()? onPressedMember;
@@ -47,10 +49,10 @@ class BuildListClients extends StatelessWidget {
       ),
       child: FadeInImage(
         fadeInDuration: const Duration(milliseconds: 1),
-        image:NetworkImage(client.photo),
+        image:NetworkImage("client.produitCommande?.first.produitPhotoPrincipale"),
         placeholder: const AssetImage('assets/icons/user_.png'),
         imageErrorBuilder:(context, error, stackTrace) {
-          return Icon(EvaIcons.person);
+          return Icon(EvaIcons.creditCard);
         },
         fit: BoxFit.contain,
       ),
@@ -59,7 +61,7 @@ class BuildListClients extends StatelessWidget {
 
   Widget _buildTitle() {
     return Text(
-      client.nom + " " + client.prenoms,
+      "Commande N°" + client.commandeId.toString(),
       style: const TextStyle(fontWeight: FontWeight.bold),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
@@ -69,44 +71,33 @@ class BuildListClients extends StatelessWidget {
   Widget _buildSubtitle() {
     String edit = "";
 
-    if (client.telephone != null) {
-      edit = " \u2022  ${client.email}";//" \u2022  ${timeago.format(data.experience!)}";
-    }
-
     return Text(
-      client.telephone + edit,
+      "Date: " + client.commandeDateCreation.toString(),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
     );
   }
 
   Widget _buildAssign() {
-    return (client.telephone != null)
-        ? InkWell(
-            onTap: onPressedMember,
-            borderRadius: BorderRadius.circular(22),
-            child: Tooltip(
-              message: client.telephone!,
-              child: CircleAvatar(
-                radius: 22,
-                backgroundColor: Colors.orange.withOpacity(.2),
-                child: Icon(EvaIcons.fileAdd),
-                ),
+    return Tooltip(
+        message: client.commandeMontantTotal.toString(),
+        child: ClipRRect(
+          borderRadius: BorderRadius.all(Radius.circular(4.0)),
+          child: Container(
+            //width: 50.0,
+            padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
+            color: Colors.orange.withOpacity(.7),
+            child:Text(
+              Stdfn.toAmount(int.parse(client.commandeMontantTotal!)),
+              style: const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
               ),
-          )
-        : DottedBorder(
-            color: kFontColorPallets[1],
-            strokeWidth: .3,
-            strokeCap: StrokeCap.round,
-            borderType: BorderType.Circle,
-            child: IconButton(
-              onPressed: onPressedAssign,
-              color: kFontColorPallets[1],
-              iconSize: 15,
-              icon: const Icon(EvaIcons.plus),
-              splashRadius: 24,
-              tooltip: "assign",
+              textAlign: TextAlign.right,
             ),
-          );
+          ),
+        )
+    );
+
   }
 }

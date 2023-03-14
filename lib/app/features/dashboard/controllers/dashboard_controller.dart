@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io' as Io;
 import 'dart:io';
 import 'package:dio/dio.dart' as dio;
@@ -24,11 +25,14 @@ import '../../../shared_components/task_progress.dart';
 import '../../../shared_components/user_profile.dart';
 import '../../../utils/ui/theme/snackbar_ui.dart';
 import '../model/client.dart';
+import '../model/commande.dart';
+import '../model/produit.dart';
 import '../views/screens/clients_screen.dart';
 import '../views/screens/commandes_screen.dart';
 import '../views/screens/home_screen.dart';
 import '../views/screens/messages_screen.dart';
 import '../views/screens/produits_screen.dart';
+import 'home_controller.dart';
 
 class PhotoTemporaire {
   String uiid;
@@ -41,10 +45,12 @@ class PhotoTemporaire {
 }
 
 class DashboardController extends GetxController with GetSingleTickerProviderStateMixin {
+
+  final HomeController hcontroller = Get.find();
   late Io.File file_picked;
   RxBool is_file_picked = false.obs;
   final RxList<PhotoTemporaire> photos = <PhotoTemporaire>[].obs;
-  //final RxList<PhotoTemporaire> photos_clients = <PhotoTemporaire>[].obs;
+  late RxList<Commande> produits_commandes = <Commande>[].obs;
 
   final RegisterRepo registerRepo = Get.find();
   final RxBool isLoading = false.obs;
@@ -53,8 +59,10 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
 
   final scafoldKey = GlobalKey<ScaffoldState>();
   GlobalKey<FormBuilderState> formKey = GlobalKey<FormBuilderState>();
+  GlobalKey<FormBuilderState> formKey2 = GlobalKey<FormBuilderState>();
 
   RxBool is_photo_client_picked = false.obs;
+
 
   DashboardController();
 
@@ -432,11 +440,26 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
 
     if (formKey.currentState!.validate()) {
       isLoading.value = true;
-      print(formKey.currentState!.value);
 
       var data = Map<String, dynamic>.from(formKey.currentState!.value);
+      var client_id =int.parse(data['client_id']);
+
+      var details_commandes = produits_commandes.where((pc) => pc.client_id == client_id);
+
+      // Creating List of strings
+      List<String> details = [];
+
+      var i = 0;
+      for(var pc in details_commandes){
+        details.add(pc.produit.produitId.toString() + ":" + pc.quantite.toString());
+        i++;
+      }
+
+      data['produit_quantite'] = details.join(',');
 
       var formData = dio.FormData.fromMap(data);
+
+      print("formData:"+ data['produit_quantite']);
 
       dio.Response response = await this.registerRepo.saveCommande(data: formData);
 
@@ -446,6 +469,7 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
         isLoading.value = false;
         SnackbarUi.success("Commande ajouté avec succès");
 
+        produits_commandes.clear();
         //
         Get.offAllNamed(AppPages.initial);
 
@@ -497,5 +521,35 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
 
   }
 
+  addProduitCommande() async {
+
+    formKey2.currentState!.save();
+
+    if (formKey2.currentState!.validate()) {
+      //isLoading.value = true;
+      print(formKey2.currentState!.value);
+
+      var data = Map<String, dynamic>.from(formKey2.currentState!.value);
+      var produit_id = int.parse(data['produit']);
+      var quantite = int.parse(data['quantite']);
+      var client_id = int.parse(data['client_id']);
+
+      var produit = hcontroller.produits
+          .where((element) => element.produitId == produit_id)
+          .first;
+
+      var uiid = Uuid().v4();
+
+      produits_commandes.add(
+          Commande(id: uiid, client_id :client_id, produit: produit, quantite: quantite)
+      );
+      Get.back();
+
+    } else {
+      SnackbarUi.error("Veuillez renseigner correctement le formulaire");
+      isLoading.value = false;
+    }
+
+  }
 
 }

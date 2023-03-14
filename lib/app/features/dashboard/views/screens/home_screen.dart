@@ -10,6 +10,7 @@ import '../../../../shared_components/header_text.dart';
 import '../../../../shared_components/task_progress.dart';
 import '../../controllers/home_controller.dart';
 import '../components/header_weekly_task.dart';
+import '../components/liste_commandes.dart';
 import '../components/task_in_progress.dart';
 import '../components/liste_clients.dart';
 
@@ -84,8 +85,8 @@ class HomeScreen extends GetView<HomeController> {
           const SizedBox(height: kSpacing * 2),
           const HeaderWeeklyTask(),
           const SizedBox(height: kSpacing),
-          ListeClients(
-            data: controller.fetchClients(),
+          ListeCommandes(
+            data: controller.fetchCommandes(),
             onPressed: controller.onPressedTask,
             onPressedAssign: controller.onPressedAssignTask,
             onPressedMember: controller.onPressedMemberTask,

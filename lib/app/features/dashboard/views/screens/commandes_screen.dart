@@ -10,6 +10,7 @@ import '../../../../shared_components/header_text.dart';
 import '../../controllers/home_controller.dart';
 import '../components/ligne_horizontal.dart';
 import '../components/liste_clients.dart';
+import '../components/liste_commandes.dart';
 
 class CommandesScreen extends GetView<HomeController> {
   const CommandesScreen({Key? key}) : super(key: key);
@@ -50,6 +51,7 @@ class CommandesScreen extends GetView<HomeController> {
                   size: 16,
                 ),
                 onPressed: () {
+                  /*
                   showModalBottomSheet(
                       backgroundColor: Colors.transparent,
                       context: context,
@@ -60,6 +62,7 @@ class CommandesScreen extends GetView<HomeController> {
 
                       }
                   );
+                  */
                 },
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
@@ -72,8 +75,8 @@ class CommandesScreen extends GetView<HomeController> {
             ],
           ),
           const SizedBox(height: kSpacing),
-          ListeClients(
-            data: controller.fetchClients(),
+          ListeCommandes(
+            data: controller.fetchCommandes(),
             onPressed: controller.onPressedTask,
             onPressedAssign: controller.onPressedAssignTask,
             onPressedMember: controller.onPressedMemberTask,
