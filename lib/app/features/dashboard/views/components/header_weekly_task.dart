@@ -15,7 +15,7 @@ class HeaderWeeklyTask extends StatelessWidget {
         const Spacer(),
         _buildArchive(),
         const SizedBox(width: 10),
-        _buildAddNewButton(),
+        //_buildAddNewButton(),
       ],
     );
   }
@@ -48,7 +48,7 @@ class HeaderWeeklyTask extends StatelessWidget {
         ),
         elevation: 0,
       ),
-      child: const Text("Historique"),
+      child: const Text("Voir plus"),
     );
   }
 }

@@ -1,15 +1,17 @@
+import 'dart:ffi';
+
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:daily_task/app/utils/helpers/app_helpers.dart';
 
 class CardTaskData {
-  final String label;
-  final String jobDesk;
-  final DateTime dueDate;
-  final int taux;
+  String? label;
+  String? jobDesk;
+  DateTime? dueDate;
+  String taux;
 
-  const CardTaskData({
+  CardTaskData({
     required this.label,
     required this.jobDesk,
     required this.dueDate,
@@ -93,12 +95,12 @@ class CardTask extends StatelessWidget {
 
   Widget _buildLabel() {
     return Text(
-      data.label,
+      data.label!+" FCFA",
       style: TextStyle(
-        fontSize: 18,
+        fontSize: 22,
         fontWeight: FontWeight.w800,
         color: onPrimary,
-        letterSpacing: 1,
+        letterSpacing: 0,
       ),
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
@@ -113,7 +115,7 @@ class CardTask extends StatelessWidget {
       ),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Text(
-        data.jobDesk,
+        data.jobDesk!,
         style: TextStyle(
           color: onPrimary,
           fontSize: 10,
@@ -129,7 +131,7 @@ class CardTask extends StatelessWidget {
     return _IconLabel(
       color: onPrimary,
       iconData: EvaIcons.calendarOutline,
-      label: DateFormat('d MMM').format(data.dueDate),
+      label: DateFormat('d MMM').format(data.dueDate!),
     );
   }
 
@@ -137,7 +139,7 @@ class CardTask extends StatelessWidget {
     return _IconLabel(
       color: onPrimary,
       iconData: EvaIcons.clockOutline,
-      label: data.dueDate.dueDate(),
+      label: data.dueDate!.dueDate(),
     );
   }
 
@@ -149,7 +151,7 @@ class CardTask extends StatelessWidget {
         onPrimary: primary,
       ),
       icon: const Icon(EvaIcons.checkmarkCircle2Outline),
-      label: Text(data.taux.toString()+ " %"),
+      label: Text(data.taux.length > 4 ? data.taux.substring(0,4).replaceAll('.', ",") : data.taux.replaceAll('.', ",") + " %"),
     );
   }
 }

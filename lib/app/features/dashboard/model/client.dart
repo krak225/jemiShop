@@ -1,12 +1,13 @@
 class Client{
-  final int id;
-  final String nom;
-  final String prenoms;
-  final String email;
-  final String adresse;
-  final String telephone;
-  final String photo;
-  final String date_creation;
+  int? id;
+  String? nom;
+  String? prenoms;
+  String? email;
+  String? adresse;
+  String? telephone;
+  String? photo;
+  String? date_creation;
+  String? statut;
 
   Client({
     required this.id,
@@ -30,4 +31,29 @@ class Client{
     date_creation: json["client_date_creation"],
   );
 
+  Client.fromJson(Map<String, dynamic> json) {
+    id = json['client_id'];
+    nom = json['client_nom'];
+    prenoms = json['client_prenoms'];
+    photo = json['client_photo'];
+    telephone = json['client_telephone'];
+    email = json['client_email'];
+    adresse = json['client_adresse'];
+    date_creation = json['client_date_creation'];
+    statut = json['client_statut'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['client_id'] = this.id;
+    data['client_nom'] = this.nom;
+    data['client_prenoms'] = this.prenoms;
+    data['client_photo'] = this.photo;
+    data['client_telephone'] = this.telephone;
+    data['client_email'] = this.email;
+    data['client_adresse'] = this.adresse;
+    data['client_date_creation'] = this.date_creation;
+    data['client_statut'] = this.statut;
+    return data;
+  }
 }

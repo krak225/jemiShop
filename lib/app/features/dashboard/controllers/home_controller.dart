@@ -5,6 +5,7 @@ import 'package:dio/dio.dart' as dio;
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:intl/intl.dart';
 
 import '../../../constans/app_constants.dart';
 import '../../../shared_components/card_task.dart';
@@ -20,6 +22,7 @@ import '../../../shared_components/list_task_date.dart';
 import '../../../shared_components/selection_button.dart';
 import '../../../shared_components/task_progress.dart';
 import '../../../shared_components/user_profile.dart';
+import '../../../utils/stdfn.dart';
 import '../model/MyCommande.dart';
 import '../model/client.dart';
 import '../model/commande.dart';
@@ -30,10 +33,18 @@ class HomeController extends GetxController {
 
   late List<Client> clients = List.empty();
   late List<Produit> produits = List.empty();
+  late List<MyCommande> commandes = List.empty();
+  late RxList<CardTaskData> taskInProgress = <CardTaskData>[].obs;
+
+  late RxInt STAT_TODAY = 0.obs;
+  late RxInt STAT_TODAY_1 = 0.obs;
+  late RxInt STAT_TODAY_2 = 0.obs;
+  late RxInt STAT_TODAY_3 = 0.obs;
+  late RxInt STAT_TODAY_4 = 0.obs;
 
   //////////
   final dataProfil = const UserProfileData(
-    image: AssetImage(ImageRasterPath.man),
+    image: AssetImage(ImageUserPath.jemi),
     name: "Jemima KOFFI",
     jobDesk: "Directrice Générale",
   );
@@ -41,66 +52,6 @@ class HomeController extends GetxController {
   final member = ["Avril Kimberly", "Michael Greg"];
 
   final dataTask = const TaskProgressData(totalTask: 5, totalCompleted: 1);
-
-  final taskInProgress = [
-    CardTaskData(
-      label: "27 500",
-      taux:45,
-      jobDesk: "Aujourd'hui",
-      dueDate: DateTime.now().add(const Duration(hours: 4)),
-    ),
-    CardTaskData(
-      label: "32 200",
-      taux:12,
-      jobDesk: "Hier",
-      dueDate: DateTime.now().subtract(const Duration(days: 1)),
-    ),
-    CardTaskData(
-      label: "71 500",
-      taux:6,
-      jobDesk: "Avant-hier",
-      dueDate: DateTime.now().subtract(const Duration(days: 2)),
-    ),
-    CardTaskData(
-      label: "52 500",
-      taux:14,
-      jobDesk: "Il y a 3 jours",
-      dueDate: DateTime.now().add(const Duration(hours: 4)),
-    ),
-    CardTaskData(
-      label: "52 000",
-      taux:14,
-      jobDesk: "Il y a 4 jours",
-      dueDate: DateTime.now().add(const Duration(hours: 4)),
-    ),
-  ];
-
-  late final weeklyTask = [
-    ListTile(
-      leading: const Icon(EvaIcons.monitor, color: Colors.blueGrey),
-      title: Text("Parfum AIDI"),
-      subtitle: Text(DateTime.now().add(-const Duration(hours: 2)).toString()),
-      trailing: Text("AB".getInitialName(2).toUpperCase()),
-    ),
-    ListTile(
-      leading: const Icon(EvaIcons.star, color: Colors.amber),
-      title: Text("Parfum AIDI"),
-      subtitle: Text(DateTime.now().add(-const Duration(hours: 2)).toString()),
-      trailing: Text("AB".getInitialName(2).toUpperCase()),
-    ),
-    ListTile(
-      leading: Icon(EvaIcons.colorPalette, color: Colors.blue),
-      title: Text("Parfum AIDI"),
-      subtitle: Text(DateTime.now().add(-const Duration(hours: 2)).toString()),
-      trailing: Text("AB".getInitialName(2).toUpperCase()),
-    ),
-    ListTile(
-      leading: Icon(EvaIcons.pieChart, color: Colors.redAccent),
-      title: Text("Parfum AIDI"),
-      subtitle: Text(DateTime.now().add(-const Duration(hours: 2)).toString()),
-      trailing: Text("AB".getInitialName(2).toUpperCase()),
-    ),
-  ];
 
   final taskGroup = [
     [
@@ -256,16 +207,91 @@ class HomeController extends GetxController {
 
       final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
 
-      return parsed.map<MyCommande>((json) => MyCommande.fromJson(json)).toList();
+      commandes = parsed.map<MyCommande>((json) => MyCommande.fromJson(json)).toList();
+
+      var today_0 = DateTime.now();
+      var today_1 = DateTime.now().subtract(const Duration(days: 1));
+      var today_2 = DateTime.now().subtract(const Duration(days: 2));
+      var today_3 = DateTime.now().subtract(const Duration(days: 3));
+      var today_4 = DateTime.now().subtract(const Duration(days: 4));
+
+      DateFormat dateFormat = DateFormat('yyyy-MM-dd');
+      String today_0_formated = dateFormat.format(today_0);
+      String today_1_formated = dateFormat.format(today_1);
+      String today_2_formated = dateFormat.format(today_2);
+      String today_3_formated = dateFormat.format(today_3);
+      String today_4_formated = dateFormat.format(today_4);
+
+      var STAT_TODAY = Stdfn.sumTotalCommandes(commandes.where((commande) => commande.commandeDateCreation!.contains(today_0_formated)));
+      var STAT_TODAY_1 = Stdfn.sumTotalCommandes(commandes.where((commande) => commande.commandeDateCreation!.contains(today_1_formated)));
+      var STAT_TODAY_2 = Stdfn.sumTotalCommandes(commandes.where((commande) => commande.commandeDateCreation!.contains(today_2_formated)));
+      var STAT_TODAY_3 = Stdfn.sumTotalCommandes(commandes.where((commande) => commande.commandeDateCreation!.contains(today_3_formated)));
+      var STAT_TODAY_4 = Stdfn.sumTotalCommandes(commandes.where((commande) => commande.commandeDateCreation!.contains(today_4_formated)));
+
+      var MONTANT_TOTAL_COMMANDES = Stdfn.sumTotalCommandes(commandes);
+
+      List<int> stats = [
+        STAT_TODAY,
+        STAT_TODAY_1,
+        STAT_TODAY_2,
+        STAT_TODAY_3,
+        STAT_TODAY_4];
+
+      int i = 0;
+      for(var stat in taskInProgress){
+        stat.label = Stdfn.toAmount(stats[i]).toString();
+        stat.taux = (stats[i] * 100 / MONTANT_TOTAL_COMMANDES).toString();
+        i++;
+      }
+
+      return commandes;
 
     } else {
 
       print("response Body: " + response.body);
 
-      throw Exception('Failed to load clients');
+      throw Exception('Failed to load commandes');
 
     }
 
+  }
+
+  @override
+  void onInit() {
+    taskInProgress.add(CardTaskData(
+      label: STAT_TODAY.toString(),
+      taux: "0",
+      jobDesk: "Aujourd'hui",
+      dueDate: DateTime.now().add(const Duration(hours: 0)),
+    ));
+    taskInProgress.add(CardTaskData(
+      label: STAT_TODAY_1.toString(),
+      taux: "0",
+      jobDesk: "Hier",
+      dueDate: DateTime.now().subtract(const Duration(days: 1)),
+    ));
+    taskInProgress.add(CardTaskData(
+      label: STAT_TODAY_2.toString(),
+      taux: "0",
+      jobDesk: "Avant-hier",
+      dueDate: DateTime.now().subtract(const Duration(days: 2)),
+    ));
+    taskInProgress.add(CardTaskData(
+      label: STAT_TODAY_3.toString(),
+      taux: "0",
+      jobDesk: "Il y a 3 jours",
+      dueDate: DateTime.now().subtract(const Duration(days: 3)),
+    ));
+    taskInProgress.add(CardTaskData(
+      label: STAT_TODAY_4.toString(),
+      taux: "0",
+      jobDesk: "Il y a 4 jours",
+      dueDate: DateTime.now().subtract(const Duration(days: 4)),
+    ));
+
+    fetchProduits();
+    //fetchCommandes();
+    //fetchClients();
   }
 
 }

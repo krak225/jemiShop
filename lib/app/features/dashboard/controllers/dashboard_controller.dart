@@ -119,7 +119,7 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
 
   //////////
   final dataProfil = const UserProfileData(
-    image: AssetImage(ImageIconsPath.user),
+    image: AssetImage(ImageUserPath.jemi),
     name: "Jemima KOFFI",
     jobDesk: "Directrice Générale",
   );
@@ -128,38 +128,7 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
 
   final dataTask = const TaskProgressData(totalTask: 5, totalCompleted: 1);
 
-  final taskInProgress = [
-    CardTaskData(
-      label: "130 700",
-      taux:45,
-      jobDesk: "Aujourd'hui",
-      dueDate: DateTime.now().add(const Duration(hours: 4)),
-    ),
-    CardTaskData(
-      label: "30 200",
-      taux:12,
-      jobDesk: "Hier",
-      dueDate: DateTime.now().subtract(const Duration(days: 1)),
-    ),
-    CardTaskData(
-      label: "71 500",
-      taux:6,
-      jobDesk: "Avant-hier",
-      dueDate: DateTime.now().subtract(const Duration(days: 2)),
-    ),
-    CardTaskData(
-      label: "123 500",
-      taux:14,
-      jobDesk: "Il y a 3 jours",
-      dueDate: DateTime.now().add(const Duration(hours: 4)),
-    ),
-    CardTaskData(
-      label: "52 000",
-      taux:14,
-      jobDesk: "Il y a 4 jours",
-      dueDate: DateTime.now().add(const Duration(hours: 4)),
-    ),
-  ];
+
 
   final taskGroup = [
     [
@@ -469,7 +438,9 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
         isLoading.value = false;
         SnackbarUi.success("Commande ajouté avec succès");
 
-        produits_commandes.clear();
+        //vider le panier du client
+        produits_commandes.removeWhere((pc) => pc.client_id == client_id);
+
         //
         Get.offAllNamed(AppPages.initial);
 

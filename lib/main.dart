@@ -13,11 +13,11 @@ void main() async {
   await GetStorage.init();
   DependecyInjection.init();
 
-  runApp(const MyApp());
+  runApp(const DoveParadis());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class DoveParadis extends StatelessWidget {
+  const DoveParadis({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

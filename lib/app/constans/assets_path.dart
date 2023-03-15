@@ -12,11 +12,9 @@ class ImageAnimationPath {
   // static const myAnim = "$_folderPath/my_anim.json";
 }
 
-class ImageRasterPath {
-  static const _folderPath = "assets/images/raster";
-  static const man = "$_folderPath/man.png";
-// static const myRaster2 = "$_folderPath/my_raster2.jpg";
-// static const myRaster3 = "$_folderPath/my_raster3.jpeg";
+class ImageUserPath {
+  static const _folderPath = "assets/images/users";
+  static const jemi = "$_folderPath/jemi.png";
 }
 
 class ImageIconsPath {

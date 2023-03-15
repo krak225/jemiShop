@@ -88,16 +88,7 @@ class HomeScreen extends GetView<HomeController> {
           ListeCommandes(
             data: controller.fetchCommandes(),
             onPressed: controller.onPressedTask,
-            onPressedAssign: controller.onPressedAssignTask,
-            onPressedMember: controller.onPressedMemberTask,
           ),
-          /*ListeProduits(
-            data: controller.fetchProduits(),
-            onPressed: controller.onPressedTask,
-            onPressedAssign: controller.onPressedAssignTask,
-            onPressedMember: controller.onPressedMemberTask,
-          ),*/
-
         ],
       ),
     );

@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../shared_components/bottom_sheet_user_details.dart';
 import '../../../../shared_components/build_liste_clients.dart';
+import '../../../../shared_components/details_commande.dart';
 import '../../../../shared_components/form_add_commande.dart';
 import '../../model/client.dart';
 
@@ -13,15 +14,11 @@ class ListeCommandes extends StatelessWidget {
   const ListeCommandes({
     required this.data,
     required this.onPressed,
-    required this.onPressedAssign,
-    required this.onPressedMember,
     Key? key,
   }) : super(key: key);
 
   final Future<List<MyCommande>> data;
   final Function(int index, Client data) onPressed;
-  final Function(int index, Client data) onPressedAssign;
-  final Function(int index, Client data) onPressedMember;
 
   @override
   Widget build(BuildContext context) {
@@ -32,23 +29,32 @@ class ListeCommandes extends StatelessWidget {
           print(snapshot);
 
           if (snapshot.hasData) {
-            List<MyCommande>? clients = snapshot.data;
+            List<MyCommande>? commandes = snapshot.data;
 
-            print(clients);
+            print(commandes!.length);
 
             return Column(
                 children: List.generate(
-                  clients!.length, (index) =>
-                    BuildListCommandes(client: clients[index],
-                      onPressed: () => {},
-                      onPressedAssign: () => onPressedAssign,
-                      onPressedMember: () => {},
+                  commandes!.length, (index) =>
+                    BuildListCommandes(commande: commandes[index],
+                      onPressed: () => {
+                        showModalBottomSheet(
+                            backgroundColor: Colors.transparent,
+                            context: context,
+                            isScrollControlled: true,
+                            builder: (context) {
+
+                              return DetailsCommande(commandes[index]);
+
+                            }
+                        )
+                      },
                     ),
                   ),
                 );
 
           } else if (snapshot.hasError) {
-            return Text("AUCUN CLIENT TROUVE");//"${snapshot.error}"
+            return Text("AUCUNE COMMANDE TROUVE");//"${snapshot.error}"
           }
           return Center(child: CircularProgressIndicator());
         },

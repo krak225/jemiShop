@@ -9,7 +9,7 @@ class HeaderText extends StatelessWidget {
     return Text(
       data,
       style: const TextStyle(
-        fontSize: 18,
+        //fontSize: 12,
         fontWeight: FontWeight.w800,
       ),
     );

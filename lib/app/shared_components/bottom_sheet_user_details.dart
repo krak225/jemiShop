@@ -30,7 +30,7 @@ class UserDetailsBottomSheet extends StatelessWidget {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: NetworkImage(
-                            client.photo
+                            client.photo!
                         ),
                         fit: BoxFit.cover
                     )
@@ -45,7 +45,7 @@ class UserDetailsBottomSheet extends StatelessWidget {
                       radius: 65.0,
                       child: CircleAvatar(
                         backgroundImage: NetworkImage(
-                            client.photo
+                            client.photo!
                         ),
                         radius: 60.0,
                       ),
@@ -58,7 +58,7 @@ class UserDetailsBottomSheet extends StatelessWidget {
               ),
               Center(
                 child:Text(
-                  client.nom + " " + client.prenoms,
+                  client.nom! + " " + client.prenoms!,
                   style: TextStyle(
                     fontSize: 25.0,
                     //color:Colors.blueGrey,
@@ -71,7 +71,7 @@ class UserDetailsBottomSheet extends StatelessWidget {
                 height: 10,
               ),
               Text(
-                client.telephone,
+                client.telephone!,
                 style: TextStyle(
                   fontSize: 20.0,
                   color:Colors.black45,
@@ -83,7 +83,7 @@ class UserDetailsBottomSheet extends StatelessWidget {
                 height: 15,
               ),
               Text(
-                client.email
+                client.email!
                 ,style: TextStyle(
                   fontSize: 15.0,
                   color:Colors.black45,

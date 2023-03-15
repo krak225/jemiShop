@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 import '../../../../constans/app_constants.dart';
 import '../../../../shared_components/card_task.dart';
@@ -10,7 +11,7 @@ class TaskInProgress extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  final List<CardTaskData> data;
+  final RxList<CardTaskData> data;
 
   @override
   Widget build(BuildContext context) {

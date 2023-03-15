@@ -2,6 +2,7 @@ import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import '../../../../constans/app_constants.dart';
 import '../../../../shared_components/form_add_client.dart';
@@ -33,7 +34,11 @@ class ClientsScreen extends GetView<HomeController> {
           Row(
             children: [
               Expanded(
-                child: LigneHorizontale(data: LigneHorizontaleData(title:"", totalTask: 12, totalCompleted: 4)),
+                child: LinearPercentIndicator(
+                  percent: 4 / 12,
+                  progressColor: Colors.blueGrey,
+                  backgroundColor: Colors.blueGrey[200],
+                ),
               ),
             ],
           ),

@@ -1,6 +1,7 @@
 import 'package:daily_task/app/constans/app_constants.dart';
 import 'package:flutter/material.dart';
 
+import '../config/app_constants.dart';
 import '../features/dashboard/model/produit.dart';
 import '../utils/stdfn.dart';
 
@@ -42,7 +43,7 @@ class BuildListProduits extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         color: Colors.blueGrey.withOpacity(.1),
       ),
-      child: Image.network(produit.produitPhotoPrincipale!, fit: BoxFit.contain)//data.icon,
+      child: Image.network(AppConstants.PRODUCTS_URL+produit.produitPhotoPrincipale!, fit: BoxFit.contain)//data.icon,
     );
   }
 

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:daily_task/app/config/app_constants.dart';
 import 'package:daily_task/app/features/dashboard/controllers/dashboard_controller.dart';
 import 'package:daily_task/app/features/dashboard/model/client.dart';
 import 'package:dotted_border/dotted_border.dart';
@@ -42,233 +43,236 @@ class FormAddCommande extends StatelessWidget {
             ),
           ),
           ClipRRect(
-          borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12), ),
-          child:
-          Container(
-            color: Colors.white,
-            child: Column(
-                children: [
-                  SingleChildScrollView(
-                    child: Container(
-                      padding: EdgeInsets.all(30),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                AutoSizeText(
-                                  "Création d'une commande",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12), ),
+            child:
+            Container(
+              color: Colors.white,
+              child: Column(
+                  children: [
+                    SingleChildScrollView(
+                      child: Container(
+                        padding: EdgeInsets.all(30),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  AutoSizeText(
+                                    "Création d'une commande",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    maxLines: 1,
                                   ),
-                                  maxLines: 1,
-                                ),
-                              ],
-                            ),
-                            FormBuilder(
-                              key: controller.formKey,
-                              autovalidateMode: AutovalidateMode.disabled,
-                              child: Obx(()=>Column(children: [
-                                SizedBox(height: 20),
-                                SizedBox(
-                                  width: 0,
-                                  height: 0,
-                                  child: Column(children: [
-                                    FadeInRight(
-                                      child: FormBuilderTextField(
-                                        name: 'client_id',
-                                        initialValue: client.id.toString(),
-                                        validator: ValidatorState.required,
-                                        readOnly: true,
-                                        decoration: CustomInputDecoration.style1(labelText: 'ID du client'),
+                                ],
+                              ),
+                              FormBuilder(
+                                key: controller.formKey,
+                                autovalidateMode: AutovalidateMode.disabled,
+                                child: Obx(()=>Column(children: [
+                                  SizedBox(height: 20),
+                                  SizedBox(
+                                    width: 0,
+                                    height: 0,
+                                    child: Column(children: [
+                                      FadeInRight(
+                                        child: FormBuilderTextField(
+                                          name: 'client_id',
+                                          initialValue: client.id.toString(),
+                                          validator: ValidatorState.required,
+                                          readOnly: true,
+                                          decoration: CustomInputDecoration.style1(labelText: 'ID du client'),
+                                        ),
                                       ),
-                                    ),
-                                  ]),
-                                ),
-                                FadeInRight(
-                                  child: FormBuilderTextField(
-                                    name: 'client_nom',
-                                    initialValue: client.nom + " " + client.prenoms,
-                                    validator: ValidatorState.required,
-                                    readOnly: true,
-                                    decoration: CustomInputDecoration.style1(labelText: 'Nom du client'),
+                                    ]),
                                   ),
-                                ),
-                                SizedBox(height: Get.height * 0.02),
-                                Row(
-                                  children: [
-                                    FadeInRight(
-                                        child:Text("Liste des produits commandés",
-                                          style: Themes.globalFont(style: TextStyle(color: LightColor.black, fontSize: 12)),
-                                          textAlign: TextAlign.left,
-                                        )
+                                  FadeInRight(
+                                    child: FormBuilderTextField(
+                                      name: 'client_nom',
+                                      initialValue: client.nom! + " " + client.prenoms!,
+                                      validator: ValidatorState.required,
+                                      readOnly: true,
+                                      decoration: CustomInputDecoration.style1(labelText: 'Nom du client'),
                                     ),
-                                    TextButton.icon(
-                                      onPressed: ()=> showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return Dialog(
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(20.0)), //this right here
-                                                child: Container(
-                                                    height: 255,
-                                                    width: 170,
-                                                    child: Column(
-                                                        children: [
-                                                          Container(padding: EdgeInsets.only(top: 10), child: Text("Produit commandé", style: TextStyle(fontSize: 14, color: Colors.primaries.last))),
-                                                          Divider(color: Colors.grey[200]),
-                                                          Container(
-                                                            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 30),
-                                                            child: FormBuilder(
-                                                              key: controller.formKey2,
-                                                              autovalidateMode: AutovalidateMode.disabled,
-                                                              child: Column(children: [
-                                                                SizedBox(height: 10),
-                                                                SizedBox(
-                                                                  width: 0,
-                                                                  height: 0,
+                                  ),
+                                  SizedBox(height: Get.height * 0.02),
+                                  Row(
+                                    children: [
+                                      FadeInRight(
+                                          child:Text("Liste des produits commandés",
+                                            style: Themes.globalFont(style: TextStyle(color: LightColor.black, fontSize: 12)),
+                                            textAlign: TextAlign.left,
+                                          )
+                                      ),
+                                      FadeInRight(
+                                        child:TextButton.icon(
+                                          onPressed: ()=> showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return Dialog(
+                                                    shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(20.0)), //this right here
+                                                    child: Container(
+                                                        height: 255,
+                                                        width: 170,
+                                                        child: Column(
+                                                            children: [
+                                                              Container(padding: EdgeInsets.only(top: 10), child: Text("Produit commandé", style: TextStyle(fontSize: 14, color: Colors.primaries.last))),
+                                                              Divider(color: Colors.grey[200]),
+                                                              Container(
+                                                                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 30),
+                                                                child: FormBuilder(
+                                                                  key: controller.formKey2,
+                                                                  autovalidateMode: AutovalidateMode.disabled,
                                                                   child: Column(children: [
+                                                                    SizedBox(height: 10),
+                                                                    SizedBox(
+                                                                      width: 0,
+                                                                      height: 0,
+                                                                      child: Column(children: [
+                                                                        FadeInRight(
+                                                                          child: FormBuilderTextField(
+                                                                            name: 'client_id',
+                                                                            initialValue: client.id.toString(),
+                                                                            validator: ValidatorState.required,
+                                                                            readOnly: true,
+                                                                            decoration: CustomInputDecoration.style1(labelText: 'ID du client'),
+                                                                          ),
+                                                                        ),
+                                                                      ]),
+                                                                    ),
                                                                     FadeInRight(
-                                                                      child: FormBuilderTextField(
-                                                                        name: 'client_id',
-                                                                        initialValue: client.id.toString(),
-                                                                        validator: ValidatorState.required,
-                                                                        readOnly: true,
-                                                                        decoration: CustomInputDecoration.style1(labelText: 'ID du client'),
+                                                                      child: FormBuilderDropdown(
+                                                                          name: 'produit',
+                                                                          validator: ValidatorState.required,
+                                                                          decoration: CustomInputDecoration.style1(labelText: 'Produit'),
+                                                                          items: hcontroller.produits.map((produit) => DropdownMenuItem(
+                                                                            child: Text(produit.produitNom! + " - PU: " + produit.produitPrix.toString()+"F"),
+                                                                            value: produit.produitId.toString(),
+                                                                          ),
+                                                                          ).toList()
                                                                       ),
                                                                     ),
+                                                                    SizedBox(height: Get.height * 0.02),
+                                                                    FadeInRight(
+                                                                      child: FormBuilderTextField(
+                                                                        name: 'quantite',
+                                                                        initialValue: '1',
+                                                                        validator: ValidatorState.required,
+                                                                        keyboardType: TextInputType.number,
+                                                                        decoration: CustomInputDecoration.style1(labelText: 'Quantité'),
+                                                                      ),
+                                                                    ),
+
                                                                   ]),
                                                                 ),
-                                                                FadeInRight(
-                                                                  child: FormBuilderDropdown(
-                                                                      name: 'produit',
-                                                                      validator: ValidatorState.required,
-                                                                      decoration: CustomInputDecoration.style1(labelText: 'Produit'),
-                                                                      items: hcontroller.produits.map((produit) => DropdownMenuItem(
-                                                                        child: Text(produit.produitNom! + " - PU: " + produit.produitPrix.toString()+"F"),
-                                                                        value: produit.produitId.toString(),
-                                                                      ),
-                                                                      ).toList()
-                                                                  ),
+                                                              ),
+                                                              Divider(color: Colors.grey[200]),
+                                                              Container(
+                                                                padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
+                                                                child: Row(
+                                                                  children: [
+                                                                    BackButton(color: Colors.grey, ),
+                                                                    const Expanded(child: Center()),
+                                                                    TextButton.icon(
+                                                                      icon: const Icon(EvaIcons.saveOutline),
+                                                                      label: Text('Ajouter'),
+                                                                      onPressed: () => controller.addProduitCommande(),
+                                                                    ),
+                                                                  ],
                                                                 ),
-                                                                SizedBox(height: Get.height * 0.02),
-                                                                FadeInRight(
-                                                                  child: FormBuilderTextField(
-                                                                    name: 'quantite',
-                                                                    initialValue: '1',
-                                                                    validator: ValidatorState.required,
-                                                                    keyboardType: TextInputType.number,
-                                                                    decoration: CustomInputDecoration.style1(labelText: 'Quantité'),
-                                                                  ),
-                                                                ),
+                                                              ),
 
-                                                              ]),
-                                                            ),
-                                                          ),
-                                                          Divider(color: Colors.grey[200]),
-                                                          Container(
-                                                            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-                                                            child: Row(
-                                                                    children: [
-                                                                      BackButton(color: Colors.grey, ),
-                                                                      const Expanded(child: Center()),
-                                                                      TextButton.icon(
-                                                                        icon: const Icon(EvaIcons.saveOutline),
-                                                                        label: Text('Ajouter'),
-                                                                        onPressed: () => controller.addProduitCommande(),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                          ),
-
-                                                        ])
-                                                )
-                                            );
-                                          }),
-                                      icon: Icon(EvaIcons.plusCircle, size: 24.0, color: Colors.orange),
-                                      label: Text('Ajouter', style: TextStyle(color: Colors.orange),),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: Get.height * 0.02),
-                                FadeInRight(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(3),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: LightColor.lightGrey2,
-                                          blurRadius: 2,
-                                          offset: Offset(0, 2),
-                                        )
-                                      ],
-                                    ),
-                                    child: SingleChildScrollView(
-                                      scrollDirection: Axis.vertical,
-                                      child: Column(children: controller.produits_commandes.where((pc) => pc.client_id == client.id).map((commande) =>FadeInRight(
-                                          child: ListTile(
-                                            leading: _buildIcon(commande.produit),
-                                            title: Text(commande.produit.produitNom!,style: const TextStyle(fontWeight: FontWeight.normal), maxLines: 1,overflow: TextOverflow.ellipsis),
-                                            subtitle: Text("quantié : "+commande.quantite.toString() ,maxLines: 1, overflow: TextOverflow.ellipsis),
-                                            trailing: _buildAssign(commande),
-                                            hoverColor: Colors.orange,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(kBorderRadius),
-                                            ),
+                                                            ])
+                                                    )
+                                                );
+                                              }),
+                                          icon: Icon(EvaIcons.plusCircle, size: 24.0, color: Colors.orange),
+                                          label: Text('Ajouter', style: TextStyle(color: Colors.orange),),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: Get.height * 0.02),
+                                  FadeInRight(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(3),
+                                        boxShadow: [
+                                          BoxShadow(
+                                            color: LightColor.lightGrey2,
+                                            blurRadius: 2,
+                                            offset: Offset(0, 2),
                                           )
-                                      )
-                                      ).toList()
+                                        ],
+                                      ),
+                                      child: SingleChildScrollView(
+                                        scrollDirection: Axis.vertical,
+                                        child: Column(children: controller.produits_commandes.where((pc) => pc.client_id == client.id).map((commande) =>FadeInRight(
+                                            child: ListTile(
+                                              leading: _buildIcon(commande.produit),
+                                              title: Text(commande.produit.produitNom!,style: const TextStyle(fontWeight: FontWeight.normal), maxLines: 1,overflow: TextOverflow.ellipsis),
+                                              subtitle: Text("quantié : "+commande.quantite.toString() ,maxLines: 1, overflow: TextOverflow.ellipsis),
+                                              trailing: _buildAssign(commande),
+                                              hoverColor: Colors.orange,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(kBorderRadius),
+                                              ),
+                                            )
+                                        )
+                                        ).toList()
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                FadeInRight(
-                                  child: _buildTotalCommande(),
-                                ),
-                              ]),
-                              ),
-                            ),
-                            SizedBox(height: Get.height * 0.04),
-                            FadeInRight(
-                              duration: Duration(milliseconds: 600),
-                              child:
-                              Center(
-                                child: ElevatedButton.icon(
-                                  onPressed: () => controller.isLoading.value ? controller.saveCommande() : controller.saveCommande(),
-                                  style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),),
-                                  icon: controller.isLoading.value ? Container(
-                                    width: 24,
-                                    height: 24,
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: const CircularProgressIndicator(
-                                      color: Colors.white,
-                                      strokeWidth: 3,
-                                    ),
-                                  )
-                                      : const Icon(Icons.check),
-                                  label: const Text('CONFIRMER'),
+                                  FadeInRight(
+                                    child: _buildTotalCommande(),
+                                  ),
+                                ]),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                          ]),
+                              SizedBox(height: Get.height * 0.04),
+                              FadeInRight(
+                                duration: Duration(milliseconds: 600),
+                                child:
+                                Center(
+                                  child: ElevatedButton.icon(
+                                    onPressed: () => controller.isLoading.value ? null : controller.saveCommande(),
+                                    style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0), backgroundColor: null),
+                                    icon: controller.isLoading.value ? Container(
+                                      width: 24,
+                                      height: 24,
+                                      padding: const EdgeInsets.all(2.0),
+                                      child: const CircularProgressIndicator(
+                                        color: Colors.white,
+                                        strokeWidth: 3,
+                                      ),
+                                    )
+                                        : const Icon(Icons.check),
+                                    label: const Text('CONFIRMER'),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                            ]),
+                      ),
                     ),
-                  ),
-                ]),
+                  ]),
+            ),
           ),
-        ),
-    ])
+        ])
     );
 
   }
 
 
   Widget _buildIcon(Produit produit) {
+
     return Container(
       width: 50,
       height: 50,
@@ -278,7 +282,7 @@ class FormAddCommande extends StatelessWidget {
       ),
       child: FadeInImage(
         fadeInDuration: const Duration(milliseconds: 1),
-        image:NetworkImage(produit.produitPhotoPrincipale!),
+        image:NetworkImage(AppConstants.PRODUCTS_URL+produit.produitPhotoPrincipale!),
         placeholder: const AssetImage('assets/icons/user_.png'),
         imageErrorBuilder:(context, error, stackTrace) {
           return Icon(EvaIcons.person);

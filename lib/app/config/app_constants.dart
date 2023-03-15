@@ -35,7 +35,8 @@ class AppConstants {
   //static const String BASE_URL = "http://10.0.2.2:8000"; //localhost for android
   // static const String BASE_URL = "http://127.0.0.1:8000"; //localhost for ios
   static const String BASE_URL = "http://jobboard.target-ci.com";
-  //static const String BASE_URL = "https://reussiteconcours.com";
+  static const String PRODUCTS_URL = BASE_URL + "/photos/produits/";
+  static const String CLIENTS_URL = BASE_URL + "/photos/clients/";
 
   static const String API_URL = BASE_URL + "/api";
 

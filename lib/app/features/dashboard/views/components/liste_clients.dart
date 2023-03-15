@@ -49,8 +49,7 @@ class ListeClients extends StatelessWidget {
 
                         }
                       ),
-                      onPressedAssign: () => onPressedAssign,
-                      onPressedMember: () => showModalBottomSheet(
+                      onPressedNewCommande: () => showModalBottomSheet(
                           backgroundColor: Colors.transparent,
                           context: context,
                           isScrollControlled: true,
