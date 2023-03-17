@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io' as Io;
 import 'dart:io';
+import 'package:daily_task/app/features/dashboard/model/MyCommande.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:file_picker/file_picker.dart';
 
@@ -521,6 +522,39 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
       isLoading.value = false;
     }
 
+  }
+
+  Future<void> updateStatutCommande(int commande_id, String statut) async {
+    var data = Map<String, dynamic>();
+    data['commande_id'] = commande_id;
+    data['statut'] = statut;
+
+    var formData = dio.FormData.fromMap(data);
+
+    dio.Response response = await this.registerRepo.updateStatutCommande(data: formData);
+
+    if (response.statusCode == 200) {
+      isLoading.value = false;
+
+
+      MyCommande myCommande = hcontroller.commandes.where((element) => element.commandeId == commande_id).first;
+      if(statut=="ANNULEE"){
+        hcontroller.commandes.remove(myCommande);
+      }else{
+        myCommande.commandeStatutLivraison = "EFFECTUEE";
+      }
+
+      //
+      SnackbarUi.success("Commande actualisée avec succès");
+
+      Get.offAllNamed(AppPages.initial);
+
+    } else {
+      print(response.data);
+
+      SnackbarUi.error(response.data.toString());
+      isLoading.value = false;
+    }
   }
 
 }

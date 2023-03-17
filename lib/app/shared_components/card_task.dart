@@ -151,7 +151,7 @@ class CardTask extends StatelessWidget {
         onPrimary: primary,
       ),
       icon: const Icon(EvaIcons.checkmarkCircle2Outline),
-      label: Text(data.taux.length > 4 ? data.taux.substring(0,4).replaceAll('.', ",") : data.taux.replaceAll('.', ",") + " %"),
+      label: Text(data.taux.length > 4 ? data.taux.substring(0,4).replaceAll('.', ",") + " %" : data.taux.replaceAll('.', ",") + " %"),
     );
   }
 }

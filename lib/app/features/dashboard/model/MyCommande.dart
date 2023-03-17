@@ -8,6 +8,7 @@ class MyCommande {
   String? details;
   String? commandeDateCreation;
   String? commandeStatut;
+  String? commandeStatutLivraison;
   Client? client;
   List<ProduitCommande>? produitCommande;
 
@@ -19,6 +20,7 @@ class MyCommande {
         required this.details,
         required this.commandeDateCreation,
         required this.commandeStatut,
+        required this.commandeStatutLivraison,
         required this.client,
         required this.produitCommande});
 
@@ -30,6 +32,7 @@ class MyCommande {
     details = json['details'];
     commandeDateCreation = json['commande_date_creation'];
     commandeStatut = json['commande_statut'];
+    commandeStatutLivraison = json['commande_statut_livraison'];
     client =
     json['client'] != null ? new Client.fromJson(json['client']) : null;
     if (json['produit_commande'] != null) {
@@ -49,6 +52,7 @@ class MyCommande {
     data['details'] = this.details;
     data['commande_date_creation'] = this.commandeDateCreation;
     data['commande_statut'] = this.commandeStatut;
+    data['commande_statut_livraison'] = this.commandeStatutLivraison;
     final client = this.client;
     if (client != null) {
       data['client'] = client.toJson();

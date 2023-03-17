@@ -52,7 +52,7 @@ class DetailsCommande extends StatelessWidget {
                   children: [
                     SingleChildScrollView(
                       child: Container(
-                        padding: EdgeInsets.all(30),
+                        padding: EdgeInsets.only(top: 30, right: 30, bottom: 0, left: 30),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -94,7 +94,7 @@ class DetailsCommande extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  Divider(height: 1, color: Colors.grey[200],),
+                                  Divider(height: 1, color: Colors.grey[100],),
                                   SizedBox(height: Get.height * 0.01),
                                   FadeInRight(
                                     child: Row(
@@ -110,7 +110,23 @@ class DetailsCommande extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  Divider(height: 1, color: Colors.grey[200],),
+                                  Divider(height: 1, color: Colors.grey[100],),
+                                  SizedBox(height: Get.height * 0.01),
+                                  FadeInRight(
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: FadeInRight(
+                                            child: Text("Statut de la commande: ", style:TextStyle(fontSize: 12),),
+                                          ),
+                                        ),
+                                        Expanded(
+                                            child:Text(mycommande!.commandeStatutLivraison! == "EFFECTUEE" ? "PAYE" : "EN ATTENTE", textAlign: TextAlign.right, style: TextStyle(fontWeight: FontWeight.bold),)
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Divider(height: 1, color: Colors.grey[100],),
                                   SizedBox(height: Get.height * 0.01),
                                   SizedBox(
                                     width: 0,
@@ -136,93 +152,6 @@ class DetailsCommande extends StatelessWidget {
                                             textAlign: TextAlign.left,
                                           )
                                       ),
-                                      /*FadeInRight(
-                                      child:TextButton.icon(
-                                        onPressed: ()=> showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return Dialog(
-                                                shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.circular(20.0)), //this right here
-                                                child: Container(
-                                                    height: 255,
-                                                    width: 170,
-                                                    child: Column(
-                                                        children: [
-                                                          Container(padding: EdgeInsets.only(top: 10), child: Text("Produit commandé", style: TextStyle(fontSize: 14, color: Colors.primaries.last))),
-                                                          Divider(color: Colors.grey[200]),
-                                                          Container(
-                                                            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 30),
-                                                            child: FormBuilder(
-                                                              key: controller.formKey2,
-                                                              autovalidateMode: AutovalidateMode.disabled,
-                                                              child: Column(children: [
-                                                                SizedBox(height: 10),
-                                                                SizedBox(
-                                                                  width: 0,
-                                                                  height: 0,
-                                                                  child: Column(children: [
-                                                                    FadeInRight(
-                                                                      child: FormBuilderTextField(
-                                                                        name: 'client_id',
-                                                                        initialValue: mycommande!.client!.id.toString(),
-                                                                        validator: ValidatorState.required,
-                                                                        readOnly: true,
-                                                                        decoration: CustomInputDecoration.style1(labelText: 'ID du client'),
-                                                                      ),
-                                                                    ),
-                                                                  ]),
-                                                                ),
-                                                                FadeInRight(
-                                                                  child: FormBuilderDropdown(
-                                                                      name: 'produit',
-                                                                      validator: ValidatorState.required,
-                                                                      decoration: CustomInputDecoration.style1(labelText: 'Produit'),
-                                                                      items: hcontroller.produits.map((produit) => DropdownMenuItem(
-                                                                        child: Text(produit.produitNom! + " - PU: " + produit.produitPrix.toString()+"F"),
-                                                                        value: produit.produitId.toString(),
-                                                                      ),
-                                                                      ).toList()
-                                                                  ),
-                                                                ),
-                                                                SizedBox(height: Get.height * 0.02),
-                                                                FadeInRight(
-                                                                  child: FormBuilderTextField(
-                                                                    name: 'quantite',
-                                                                    initialValue: '1',
-                                                                    validator: ValidatorState.required,
-                                                                    keyboardType: TextInputType.number,
-                                                                    decoration: CustomInputDecoration.style1(labelText: 'Quantité'),
-                                                                  ),
-                                                                ),
-
-                                                              ]),
-                                                            ),
-                                                          ),
-                                                          Divider(color: Colors.grey[200]),
-                                                          Container(
-                                                            padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
-                                                            child: Row(
-                                                                    children: [
-                                                                      BackButton(color: Colors.grey, ),
-                                                                      const Expanded(child: Center()),
-                                                                      TextButton.icon(
-                                                                        icon: const Icon(EvaIcons.saveOutline),
-                                                                        label: Text('Ajouter'),
-                                                                        onPressed: () => controller.addProduitCommande(),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                          ),
-
-                                                        ])
-                                                )
-                                            );
-                                          }),
-                                      icon: Icon(EvaIcons.plusCircle, size: 24.0, color: Colors.orange),
-                                      label: Text('Ajouter', style: TextStyle(color: Colors.orange),),
-                                    ),
-                                    ),*/
                                     ],
                                   ),
                                   FadeInRight(
@@ -267,36 +196,69 @@ class DetailsCommande extends StatelessWidget {
                                 ]),
                                 ),
                               ),
-                              /*SizedBox(height: Get.height * 0.04),
-                              FadeInRight(
-                              duration: Duration(milliseconds: 600),
-                              child:
-                              Center(
-                                child: ElevatedButton.icon(
-                                  onPressed: () => controller.isLoading.value ? controller.saveCommande() : controller.saveCommande(),
-                                  style: ElevatedButton.styleFrom(padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),),
-                                  icon: controller.isLoading.value ? Container(
-                                    width: 24,
-                                    height: 24,
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: const CircularProgressIndicator(
-                                      color: Colors.white,
-                                      strokeWidth: 3,
-                                    ),
-                                  )
-                                      : const Icon(Icons.check),
-                                  label: const Text('CONFIRMER'),
-                                ),
-                              ),
-                            ),
-                              SizedBox(
-                                height: 10,
-                              ),*/
                             ]),
                       ),
                     ),
-                  ]),
-            ),
+                    Divider(),
+                    Container(padding: EdgeInsets.symmetric(horizontal: 0),
+                      child: mycommande.commandeStatutLivraison!.contains('NON EFFECTUEE') ?
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Column(children:[
+                          FadeInRight(
+                              child:Text("La commande a-t-elle été réglée ou annulée ?",
+                                style: Themes.globalFont(style: TextStyle(color: LightColor.black, fontSize: 12)),
+                                textAlign: TextAlign.left,
+                              )
+                          ),
+                          FadeInRight(
+                            duration: Duration(milliseconds: 600),
+                            child: Row(children:[
+                              SizedBox(child:
+                              ElevatedButton.icon(
+                                onPressed: () => controller.updateStatutCommande(mycommande.commandeId!, 'ANNULEE'),
+                                style: ElevatedButton.styleFrom(backgroundColor: Colors.red[400], padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0)) ,
+                                icon: controller.isLoading.value ? Container(
+                                  width: 24,
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: const CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 3,
+                                  ),
+                                )
+                                    : const Icon(Icons.delete),
+                                label: const Text('ANNULEE'),
+                              ),
+                              ),
+                              Expanded(child: Center(child: Text("")),),
+                              SizedBox(child: 
+                              ElevatedButton.icon(
+                                onPressed: () => controller.updateStatutCommande(mycommande.commandeId!, 'EFFECTUEE'),
+                                style: ElevatedButton.styleFrom(backgroundColor: Colors.green, padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),),
+                                icon: controller.isLoading.value ? Container(
+                                  width: 24,
+                                  height: 24,
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: const CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 3,
+                                  ),
+                                )
+                                    : const Icon(Icons.check),
+                                label: const Text('REGLEE'),
+                              ),
+                              ),
+                            ]),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ]),
+                      )
+                      : Center(),
+                    )
+            ]),
+          ),
           ),
         ])
     );

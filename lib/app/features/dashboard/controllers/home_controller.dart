@@ -289,8 +289,8 @@ class HomeController extends GetxController {
       dueDate: DateTime.now().subtract(const Duration(days: 4)),
     ));
 
+    fetchCommandes();
     fetchProduits();
-    //fetchCommandes();
     //fetchClients();
   }
 

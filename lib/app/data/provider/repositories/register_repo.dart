@@ -42,6 +42,11 @@ class RegisterRepo {
     return await dioService.postData('/commande', data: data);
   }
 
+  Future<Response> updateStatutCommande({required dynamic data}) async {
+    return await dioService.postData('/update_statut_commande', data: data);
+  }
+
+
   Future sessionDataSave(RegisterResponse registerResponse) async {
     _storage.write(AppConstants.USER_ID, registerResponse.data?.id);
     _storage.write(AppConstants.USER_FIRSTNAME, registerResponse.data?.firstname);
@@ -51,6 +56,5 @@ class RegisterRepo {
     print(registerResponse.data?.firstname);
     print(registerResponse.data?.email);
   }
-
 
 }

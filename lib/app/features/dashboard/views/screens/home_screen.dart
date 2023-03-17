@@ -1,6 +1,4 @@
-import 'package:daily_task/app/features/dashboard/views/components/liste_produits.dart';
 import 'package:daily_task/app/utils/helpers/app_helpers.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
@@ -12,7 +10,6 @@ import '../../controllers/home_controller.dart';
 import '../components/header_weekly_task.dart';
 import '../components/liste_commandes.dart';
 import '../components/task_in_progress.dart';
-import '../components/liste_clients.dart';
 
 class HomeScreen extends GetView<HomeController> {
   const HomeScreen({Key? key}) : super(key: key);
