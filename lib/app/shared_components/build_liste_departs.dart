@@ -66,8 +66,9 @@ class BuildListDeparts extends StatelessWidget {
   }
 
   Widget _buildAssign() {
+
     return Tooltip(
-              message: depart.ligne!.ligneKilometrage!,
+              message: depart.ligne!.ligneKilometrage!.toString(),
               child: ClipRRect(
                 borderRadius: BorderRadius.all(Radius.circular(4.0)),
                 child: Container(
@@ -75,7 +76,7 @@ class BuildListDeparts extends StatelessWidget {
                     padding: EdgeInsets.symmetric(vertical: 2, horizontal: 5),
                     color: Colors.orange.withOpacity(.7),
                     child:Text(
-                      Stdfn.toAmount(int.parse(depart!.ligne!.ligneKilometrage!)),
+                      Stdfn.toAmount(int.parse(depart!.ligne!.ligneKilometrage!.toString())),
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

@@ -44,6 +44,11 @@ class _BottomNavbarState extends State<BottomNavbar> {
           icon: Icon(EvaIcons.peopleOutline),
           label: "Mes clients",
         ),
+        BottomNavigationBarItem(
+          activeIcon: Icon(EvaIcons.car),
+          icon: Icon(EvaIcons.carOutline),
+          label: "Départs",
+        ),
         /*BottomNavigationBarItem(
           activeIcon: Icon(EvaIcons.messageSquare),
           icon: Icon(EvaIcons.messageSquareOutline),

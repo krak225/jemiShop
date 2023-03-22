@@ -34,7 +34,7 @@ class DashboardScreen extends GetView<DashboardController>{
         },
       child: Scaffold(
         key: controller.scafoldKey,
-        appBar: AppBar(title: Text('Dove Paradis - Tableau de bord'),),
+        appBar: AppBar(title: Text('Hello Départ'),),
         /*appBar: AnimatedAppBar(
           drawerTween: null,
           onPressed: () {

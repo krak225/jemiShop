@@ -137,10 +137,10 @@ class HomeController extends GetxController {
 
   Future<List<Depart>> fetchDeparts() async {
 
-    String url = "http://127.0.0.1:8000/api/rechercher_departs/1/3/2023-03-22";
+    String url = "http://10.0.2.2:8000/api/rechercher_departs/1/3/2023-03-22";
 
     final response = await http.get(Uri.parse(url), headers: {
-      //HttpHeaders.authorizationHeader: 'Bearer $TOKEN_STORAGE',
+      HttpHeaders.authorizationHeader: 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZmY2OGNkMjExMzE4NjZkM2FiYWMzNzUxYjQ2MTk2NjAyNDA4NDBhNTcyYzFmZTg2MjYyMWU0OGU2MDI0NzI0ODliYzBjNzM3ZjkzMjk4MTciLCJpYXQiOjE2Nzk1MTE4NDMuMjU0NjMxLCJuYmYiOjE2Nzk1MTE4NDMuMjU0NjM1LCJleHAiOjE3MTExMzQyNDMuMjM4MjU5LCJzdWIiOiI5Iiwic2NvcGVzIjpbXX0.diPgWNqI2D04TgI8rqtBuD9QTXcelbq2ahUSYVzELRPs6P9daUZfzwH5s07Mia50ud0pHNQ7PBCBlRyZLOxtOHqaFw8qPhRYY-8xZOrxWD1sSnYl9zGck5_VYagupCtWv_bxR-wiKhPoVWmKWtvbe7q-3D8vpTVuu2mkkiMoFcDxf9JA3zQ9Os7ZuFCZ0B42bH8pY-6Zb0QDMIhwuo9D2gEA_42y1klNmpVHXbNDHZN0VGUC8iGzkBXOMf-UqQOKfV_pm8DRF_4HIiAp52hbahHU1S2Sb7jcjZNdiv1uhoHSMtEzjYhLo5DkEwjgjIUEj3tP2JAi99FGQ7NLTc8fBW1dSgh51OY4GlJPhKrs1nx-LuXgb0Eecib0ra4XqRwsoJlVKPzh9ByE920dEXcBnbUhf5l-4kbh04J2nD-qMSp7LfMX_46FOIwtcNy54lFg5KKhCXuSeQzBH4ESTgT7Fr8rKp5dz4OeLmVKzRyn9KEagJvn3xhgutoQyngmt5_HeIhUkNqipMGoyV0pG6rBhs9ilLkRZ8rADb0k-NAcZpAgRLDBxavBx-CUa9aZ_j6dRY6jq1wVrWO787a1NFCiGEHlOCmFtfmC6C-ERxSxZ72qjwN6-IdeM3FczrKlaa8GkW0nspLGolxHsTjsXKEa5F_HQyIbvNPgxBdabNdECl8',
       HttpHeaders.contentTypeHeader: 'application/json',
     });
 

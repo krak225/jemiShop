@@ -41,7 +41,7 @@ class ListeDeparts extends StatelessWidget {
                     BuildListDeparts(
                       depart: departs[index],
                       onPressed: () =>{
-                        showModalBottomSheet(
+                        /*showModalBottomSheet(
                           backgroundColor: Colors.transparent,
                           context: context,
                           isScrollControlled: true,
@@ -50,7 +50,7 @@ class ListeDeparts extends StatelessWidget {
                             return Center(child: Text(departs[index].toString()),);
 
                           }
-                        )
+                        )*/
                       },
                       onPressedAssign: () => {},
                       onPressedMember: () => {},
