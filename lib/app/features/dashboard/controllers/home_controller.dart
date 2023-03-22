@@ -26,6 +26,7 @@ import '../../../utils/stdfn.dart';
 import '../model/MyCommande.dart';
 import '../model/client.dart';
 import '../model/commande.dart';
+import '../model/hellodepart_models.dart';
 import '../model/produit.dart';
 
 class HomeController extends GetxController {
@@ -34,6 +35,7 @@ class HomeController extends GetxController {
   late List<Client> clients = List.empty();
   late List<Produit> produits = List.empty();
   late List<MyCommande> commandes = List.empty();
+  late List<Depart> departs = List.empty();
   late RxList<CardTaskData> taskInProgress = <CardTaskData>[].obs;
 
   late RxInt STAT_TODAY = 0.obs;
@@ -132,6 +134,35 @@ class HomeController extends GetxController {
 
 
   //
+
+  Future<List<Depart>> fetchDeparts() async {
+
+    String url = "http://127.0.0.1:8000/api/rechercher_departs/1/3/2023-03-22";
+
+    final response = await http.get(Uri.parse(url), headers: {
+      //HttpHeaders.authorizationHeader: 'Bearer $TOKEN_STORAGE',
+      HttpHeaders.contentTypeHeader: 'application/json',
+    });
+
+    print(url);
+
+    if (response.statusCode == 200) {
+
+      final parsed = json.decode(response.body).cast<Map<String, dynamic>>();
+
+      departs = parsed.map<Depart>((json) => Depart.fromJson(json)).toList();
+
+      return departs;
+
+    } else {
+
+      print("response Body: " + response.body);
+
+      throw Exception('Failed to load départs');
+
+    }
+
+  }
 
   Future<List<Client>> fetchClients() async {
 

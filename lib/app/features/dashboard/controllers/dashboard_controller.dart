@@ -30,6 +30,7 @@ import '../model/commande.dart';
 import '../model/produit.dart';
 import '../views/screens/clients_screen.dart';
 import '../views/screens/commandes_screen.dart';
+import '../views/screens/departs_screen.dart';
 import '../views/screens/home_screen.dart';
 import '../views/screens/messages_screen.dart';
 import '../views/screens/produits_screen.dart';
@@ -88,10 +89,11 @@ class DashboardController extends GetxController with GetSingleTickerProviderSta
     CommandesScreen(),
     ProduitsScreen(),
     ClientsScreen(),
+    DepartsScreen(),
     MessagesScreen(),
   ];
 
-  final pageListTitle = ["Accueil", "Commandes", "Produits", "Clients"];
+  final pageListTitle = ["Accueil", "Commandes", "Produits", "Clients", "Départs"];
 
   Future<void> changeIndex(int? index) async {
     this.tabIndex.value = index ?? 0;
